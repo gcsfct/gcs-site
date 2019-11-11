@@ -18,10 +18,16 @@ We have intercepted this messages from one of Santa's elfs, Evilio.
 We suspect there is something hidden in it.
 {{< figure src="/cats.jpg" >}}
 
-You must check if you got the image right by doing:
+## Download verification
 
+Linux:
 ``` bash
 diff  <(echo "9b4f299aa4006708870123ff926178ff  cats.jpg" ) <(md5sum cats.jpg)
+```
+
+Mac:
+``` bash
+diff  <(echo "MD5 (cats.jpg) = 9b4f299aa4006708870123ff926178ff" ) <(md5 cats.jpg)
 ```
 
 Now it's up to you to find out what Evilio meant with this message...

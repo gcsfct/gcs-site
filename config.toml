@@ -13,8 +13,8 @@ title ="Cyber Security Group"
   homeSubtitle = "FCT @ UNL"
 
   # Metadata mostly used in document's head
-  description = "Homepage and blog by Djordje Atlialp"
-  keywords = "homepage, blog, science, informatics, development, programming"
+  description = "Homepage and blog by GCS"
+  keywords = "homepage, blog, science, informatics, development, programming, security"
   images = [""]
 
   # Directory name of your blog content (default is `content/posts`)
@@ -44,20 +44,13 @@ title ="Cyber Security Group"
 
  # Social icons
   [[params.social]]
-    name = "twitter"
-    url  = "https://twitter.com/"
-
-  [[params.social]]
     name = "email"
-    url  = "mailto:nobody@example.com"
+    url  = "mailto:cibersegurancafct@gmail.com"
 
   [[params.social]]
     name = "github"
     url  = "https://github.com/gcsfct"
   
-  [[params.social]]
-    namoe = "discord"
-    url   = ""
 
   
 
