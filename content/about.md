@@ -8,14 +8,14 @@ aliases = ["about-us","about-hugo","contact"]
 
 
 ### Who are we?
-Situated at Faculdade de Ciências e Tecnologias da Universidade Nova de Lisboa, we starded as a small group of people interested in developing their knowledge and skills in Cyber Security. Our insterests leaded us to the creation of this group.
+From Faculdade de Ciências e Tecnologias da Universidade Nova de Lisboa, we starded as a small group of people interested in developing their knowledge and skills in Cyber Security. Our interests lead us to the creation of this group.
 
 Currently we organize activities every week where we solve various types of online challenges.
 
 
 #### Objectives:
 - Spread awareness.
-- Develop knowlegde and skills in the area.
+- Develop knowledge and skills in the area.
 - Promote ativities related with Cyber Security.
 
 
@@ -28,4 +28,4 @@ As we know it today [Cyber Security](https://en.wikipedia.org/wiki/Computer_secu
 
 ### Do you want to be part of it?
 If you want to learn and develop your skills in Cyber Security you just need to let us know through our [form](https://docs.google.com/forms/d/1NEHZnoQCcGiuuqpUM6OKQ01TAjNDT_Q-dbBtMplJ7fk/viewform?edit_requested=true).
-Dont be afraid, we are waiting for you!
+We are waiting for you!
