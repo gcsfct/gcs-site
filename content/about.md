@@ -8,7 +8,7 @@ aliases = ["about-us","about-hugo","contact"]
 
 
 ### Who are we?
-From Faculdade de Ciências e Tecnologias da Universidade Nova de Lisboa, we starded as a small group of people interested in developing their knowledge and skills in Cyber Security. Our interests lead us to the creation of this group.
+From Faculdade de Ciências e Tecnologias da Universidade Nova de Lisboa, we started as a small group of people interested in developing their knowledge and skills in Cyber Security. Our interests lead us to the creation of this group.
 
 Currently we organize activities every week where we solve various types of online challenges.
 
