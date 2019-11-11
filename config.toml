@@ -1,0 +1,77 @@
+aseurl = "/"
+languageCode = "en-us"
+theme = "hello-friend-ng"
+
+title ="Cyber Security Group"
+
+[params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04 -0700"
+
+  homeSubtitle = "FCT @ UNL"
+
+  # Metadata mostly used in document's head
+  description = "Homepage and blog by Djordje Atlialp"
+  keywords = "homepage, blog, science, informatics, development, programming"
+  images = [""]
+
+  # Directory name of your blog content (default is `content/posts`)
+  contentTypeName = "posts"
+  # Default theme "light" or "dark"
+  defaultTheme = "dark"
+  themeColor = "#252627"
+  # Colors for favicons
+  [params.favicon.color]
+    mask = "#252627"
+    msapplication = "#252627"
+    theme = "#252627"
+
+
+[languages]
+  [languages.en]
+    subtitle = "FCT @ UNL"
+    keywords = ""
+    copyright = ""
+    readOtherPosts = "Read other posts"
+
+    [languages.en.params.logo]
+      logoText = "cd /home/gcs/"
+      logoHomeLink = "/"
+    
+
+
+ # Social icons
+  [[params.social]]
+    name = "twitter"
+    url  = "https://twitter.com/"
+
+  [[params.social]]
+    name = "email"
+    url  = "mailto:nobody@example.com"
+
+  [[params.social]]
+    name = "github"
+    url  = "https://github.com/gcsfct"
+  
+  [[params.social]]
+    namoe = "discord"
+    url   = ""
+
+  
+
+# And you can even create generic menu
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "/about"
+  [[menu.main]]
+    identifier = "blog"
+    name       = "Blog"
+    url        = "/posts"
+  [[menu.main]]
+    identifier = "form"
+    name       = "Form"
+    url        = "https://docs.google.com/forms/d/1NEHZnoQCcGiuuqpUM6OKQ01TAjNDT_Q-dbBtMplJ7fk/viewform?edit_requested=true"
