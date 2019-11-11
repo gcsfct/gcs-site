@@ -73,5 +73,5 @@ title ="Cyber Security Group"
     url        = "/posts"
   [[menu.main]]
     identifier = "form"
-    name       = "Form"
+    name       = "Sign Up"
     url        = "https://docs.google.com/forms/d/1NEHZnoQCcGiuuqpUM6OKQ01TAjNDT_Q-dbBtMplJ7fk/viewform?edit_requested=true"
