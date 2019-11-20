@@ -27,5 +27,4 @@ If you find it please let us know ASAP, we don't have much time.
 Good luck!
 
 # Submission
-Submisson information will be available soon...
-Be ready!
+Did you find it? Click [here](https://forms.gle/nsTjQNyXBxN8c68Z9).
