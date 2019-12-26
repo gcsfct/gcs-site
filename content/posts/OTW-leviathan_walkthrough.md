@@ -427,3 +427,4 @@ You did it!
 
 If you enjoyed reading this walkthrough, have comments or fixes on it,
 send us an [email](mailto:cibersegurancafct@gmail.com).
+Author: [José Duarte](https://jmg-duarte.github.io/).
