@@ -39,7 +39,7 @@ title ="Cyber Security Group"
     [languages.en.params.logo]
       logoText = "cd /home/gcs/"
       logoHomeLink = "/"
-    
+
 
 
  # Social icons
@@ -50,11 +50,9 @@ title ="Cyber Security Group"
   [[params.social]]
     name = "github"
     url  = "https://github.com/gcsfct"
-  
 
-  
 
-# And you can even create generic menu
+# Menu
 [menu]
   [[menu.main]]
     identifier = "about"
@@ -65,6 +63,10 @@ title ="Cyber Security Group"
     name       = "Blog"
     url        = "/posts"
   [[menu.main]]
+    identifier = "challenges"
+    name       = "Challenges"
+    url        = "/challenges"
+  [[menu.main]]
     identifier = "form"
     name       = "Sign Up"
-    url        = "https://docs.google.com/forms/d/1NEHZnoQCcGiuuqpUM6OKQ01TAjNDT_Q-dbBtMplJ7fk/viewform?edit_requested=true"
+    url        ="https://docs.google.com/forms/d/1NEHZnoQCcGiuuqpUM6OKQ01TAjNDT_Q-dbBtMplJ7fk/viewform?edit_requested=true"

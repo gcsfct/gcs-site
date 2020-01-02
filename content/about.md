@@ -16,11 +16,11 @@ Currently we organize activities every week where we solve various types of onli
 #### Objectives:
 - Spread awareness.
 - Develop knowledge and skills in the area.
-- Promote ativities related with Cyber Security.
+- Promote activities related with Cyber Security.
 
 
 ### What is Cyber Security?
-From [Wikipedia](https://en.wikipedia.org/wiki/Computer_security), Computer security, cybersecurity or information technology security (IT security) is the protection of computer systems from the theft of or damage to their hardware, software, or electronic data, as well as from the disruption or misdirection of the services they provide. 
+From [Wikipedia](https://en.wikipedia.org/wiki/Computer_security), Computer security, cybersecurity or information technology security (IT security) is the protection of computer systems from the theft of or damage to their hardware, software, or electronic data, as well as from the disruption or misdirection of the services they provide.
 
 ### Why does it matter?
 As we know it today [Cyber Security](https://en.wikipedia.org/wiki/Computer_security) is becoming more important due to increased reliance on computer systems, the Internet and wireless network standards such as Bluetooth and Wi-Fi, and due to the growth of "smart" devices, including smartphones, televisions, and the various devices that constitute the "Internet of things". Owing to its complexity, both in terms of politics and technology, cybersecurity is also one of the major challenges in the contemporary world.
