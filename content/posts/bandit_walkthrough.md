@@ -51,7 +51,7 @@ Levels:
   - [Level 31](#level31)
   - [Level 32](#level32)
   - [Level 33](#level33)
-  - [Level 34](#level34)
+  - [Level 34](#Level-34)
 
 ## [Level 0](http://overthewire.org/wargames/bandit/bandit0.html)
 <a name="level0"></a>
@@ -2085,8 +2085,7 @@ c9c3199ddf4121b10cf581a98d51caee
 
 Done! Next one!
 
-## [Level 34](http://overthewire.org/wargames/bandit/bandit34.html)
-<a name="level34"></a>
+## Level 34
 
 ```
 bandit33@bandit:~$ ls -la
