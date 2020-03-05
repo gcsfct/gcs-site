@@ -1,4 +1,4 @@
-aseurl = "/"
+baseurl = "/"
 languageCode = "en-us"
 theme = "hello-friend-ng"
 
