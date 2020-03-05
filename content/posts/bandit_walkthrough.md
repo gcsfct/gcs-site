@@ -53,7 +53,8 @@ Levels:
   - [Level 33](#level-33)
   - [Level 34](#level-34)
 
-## <a id="level-0"></a> [Level 0](http://overthewire.org/wargames/bandit/bandit0.html)
+<a id="level-0"></a> 
+## [Level 0](http://overthewire.org/wargames/bandit/bandit0.html)
 
 So we need to login as **bandit0** using the password **bandit0** at **bandit.labs.overthewire.org** using SSH. It's also said that the connection should be done to port **2220**.
 
