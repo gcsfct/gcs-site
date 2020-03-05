@@ -51,7 +51,7 @@ Levels:
   - [Level 31](#level31)
   - [Level 32](#level32)
   - [Level 33](#level33)
-  - [Level 34](#Level-34)
+  - [Level 34](#level-34)
 
 ## [Level 0](http://overthewire.org/wargames/bandit/bandit0.html)
 <a name="level0"></a>
