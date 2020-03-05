@@ -53,8 +53,8 @@ Levels:
   - [Level 33](#level33)
   - [Level 34](#level34)
 
-<a name="level0"></a>
 ## [Level 0](http://overthewire.org/wargames/bandit/bandit0.html)
+<a name="level0"></a>
 
 So we need to login as **bandit0** using the password **bandit0** at **bandit.labs.overthewire.org** using SSH. It's also said that the connection should be done to port **2220**.
 
@@ -69,8 +69,8 @@ which we can change with the arguments we have, resulting in `ssh bandit0@bandit
 
 Ok now we can go to the next level.
 
-<a name="level1"></a>
 ## [Level 1](http://overthewire.org/wargames/bandit/bandit1.html)
+<a name="level1"></a>
 
 We will use the connection established in [Level 0](#level0) to solve this level. They say that the password for the next level is stored in the file called **readme**. To print the content of the file we can use the `cat` command which takes the file you want to see.
 
@@ -81,8 +81,8 @@ boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 
 So now that we have the password we can go to the next level.
 
-<a name="level2"></a>
 ## [Level 2](http://overthewire.org/wargames/bandit/bandit2.html)
+<a name="level2"></a>
 
 In this level the password is in a file called `-`. The problem here is that the character `-` is used as a special character to represent stdin ([more information on this here](https://unix.stackexchange.com/questions/16357/usage-of-dash-in-place-of-a-filename)), so in this case we should be able to see its content if we specify the filename in a path format like
 
@@ -93,8 +93,8 @@ CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 
 The `.` means the current directory, so what we are representing is the current directory, which inside has a file named `-`.
 
-<a name="level3"></a>
 ## [Level 3](http://overthewire.org/wargames/bandit/bandit3.html)
+<a name="level3"></a>
 
 So now the file that we want to see is called `spaces in this filename`. The challenge here is that if we do like before and use the command **cat** followed by the name we get this
 
@@ -117,8 +117,8 @@ UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
 
 Onto the next level.
 
-<a name="level4"></a>
 ## [Level 4](http://overthewire.org/wargames/bandit/bandit4.html)
+<a name="level4"></a>
 
 Now the file that contains the password is a hidden file and is in the `inhere` directory. To change directory we use the **cd** command.
 
@@ -151,8 +151,8 @@ pIwrPrtPN36QITSp3EQaw936yaFoFgAB
 
 So by using **cat** with the filename we can then get the password for the next level.
 
-<a name="level5"></a>
 ## [Level 5](http://overthewire.org/wargames/bandit/bandit5.html)
+<a name="level5"></a>
 
 So now the password is stored in the only human-readable file in the `inhere` directory. As we've seen before to change directory we can use the **cd** command. Then we can list the files in the current directory by using ls (i use the **-l** flag just to display it as a vertical listing).
 
@@ -214,8 +214,8 @@ koReBOKuIDDepwhWk7jZC0RTdopnAYKh
 
 Done. Next level.
 
-<a name="level6"></a>
 ## [Level 6](http://overthewire.org/wargames/bandit/bandit6.html)
+<a name="level6"></a>
 
 So now the password is in a file stored in the `inhere` directory and has three properties:
 
@@ -268,8 +268,8 @@ DXjZPULLxYr17uwoI01bNLQbtFemEgo7
 
 Onto the next level.
 
-<a name="level7"></a>
 ## [Level 7](http://overthewire.org/wargames/bandit/bandit7.html)
+<a name="level7"></a>
 
 In this level the password is stored **somewhere in the server** with a few properties:
 
@@ -313,8 +313,8 @@ HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
 
 Quick note, what i did in the previous command was telling bash that **cat** took the result of another command (**find**) as an argument, we do this by surrounding it with `$()`. This tells bash that what's inside is not only text, it's actually a command. So then the resulting output of the **find** command `/var/lib/dpkg/info/bandit7.password` will be an argument to **cat**.
 
-<a name="level8"></a>
 ## [Level 8](http://overthewire.org/wargames/bandit/bandit8.html)
+<a name="level8"></a>
 
 New challenge. The password is stored in the file `data.txt` next to the word `millionth`. Ok so let's see the content of the file.
 
@@ -345,8 +345,8 @@ What we are doing here is called pipelining commands. What it does is using the 
 
 Onto the next level.
 
-<a name="level9"></a>
 ## [Level 9](http://overthewire.org/wargames/bandit/bandit9.html)
+<a name="level9"></a>
 
 Now the password is still stored in `data.txt` but now they say is the only line that is unique.
 We will **cat** the file just to see its content
@@ -395,8 +395,8 @@ UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
 
 Ok there we go. We have the password, let's go to the next level.
 
-<a name="level10"></a>
 ## [Level 10](http://overthewire.org/wargames/bandit/bandit10.html)
+<a name="level10"></a>
 
 Now the password is stored in the file `data.txt` and is one of the few human-readable strings, beginning with several `=` characters. Now we already know what a few of the suggested commands do, so we know they're not quite what we want. Let's check out **strings**.
 
@@ -425,8 +425,8 @@ iv8!=
 
 Ok we can assume the password is the penultimate line, minus the `=`s of course.
 
-<a name="level11"></a>
 ## [Level 11](http://overthewire.org/wargames/bandit/bandit11.html)
+<a name="level11"></a>
 
 Now the password is still stored in `data.txt` but encoded with base64. There is a suggested command named `base64` that might be useful.
 
@@ -444,8 +444,8 @@ The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
 
 *DJ Khaled Voice:* Another one
 
-<a name="level12"></a>
 ## [Level 12](http://overthewire.org/wargames/bandit/bandit12.html)
+<a name="level12"></a>
 
 The password is stored in the file `data.txt`, but all lowercase and uppercase letters have been rotated 13 positions. This is called ROT13 (you can google it to get some more information on this). It's a ceasar's cipher with the **n** equal to 13 (you can google this as well). So by checking out the suggested commands there are a few that we already know that are not suitable for this. One of the new ones is **tr**. Let's check the **man** page.
 
@@ -465,8 +465,8 @@ The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 
 Perfect. Next level.
 
-<a name="level13"></a>
 ## [Level 13](http://overthewire.org/wargames/bandit/bandit13.html)
+<a name="level13"></a>
 
 Let's see the challenge description,
 
@@ -713,8 +713,8 @@ The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 
 It's over. I need a break...
 
-<a name="level14"></a>
 ## [Level 14](http://overthewire.org/wargames/bandit/bandit14.html)
+<a name="level14"></a>
 
 So new level, new challenge. The password is stored in a file but can only be read by the **bandit14** (we are **bandit13**). They give us a SSH key to login to next level though. If whe check the **man** page we learn that we can use the `-i` flag to use a private key to login. Let's try it.
 
@@ -733,8 +733,8 @@ bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
 
 Onto the next one.
 
-<a name="level15"></a>
 ## [Level 15](http://overthewire.org/wargames/bandit/bandit15.html)
+<a name="level15"></a>
 
 We can get the password for the next user if we submit the current one to port **30000**. We can use **nc** (netcat) to make simple TCP and UDP connections let's try it. **nc** takes a **host** and a **port** to connect to. Let's try it then.
 
@@ -753,8 +753,8 @@ BfMYroe26WYalil77FoDi9qh59eK5xNr
 
 Next please.
 
-<a name="level16"></a>
 ## [Level 16](http://overthewire.org/wargames/bandit/bandit16.html)
+<a name="level16"></a>
 
 This challenge has a few important notes so i'll just paste it here
 
@@ -786,8 +786,8 @@ closed
 
 Ok we got it. Next one.
 
-<a name="level17"></a>
 ## [Level 17](http://overthewire.org/wargames/bandit/bandit17.html)
+<a name="level17"></a>
 
 Now they give us a range of ports to which we have to submit the current password. Let's not bruteforce it. We can use **nmap** to give us some information on the ports. Check the **man** page. We can use the `-p` flag to scan port ranges.
 
@@ -945,8 +945,8 @@ xLYVMN9WE5zQ5vHacb0sZEVqbrp7nBTn
 
 Now we can go to the next one.
 
-<a name="level18"></a>
 ## [Level 18](http://overthewire.org/wargames/bandit/bandit18.html)
+<a name="level18"></a>
 
 So now the password for the next level is the only line different between **passwords.old** and **passwords.new**. Let's check the **diff** command.
 
@@ -967,8 +967,8 @@ bandit17@bandit:~$ diff passwords.old passwords.new
 
 So our password should be the one on the bottom since that's the new one. Next one.
 
-<a name="level19"></a>
 ## [Level 19](http://overthewire.org/wargames/bandit/bandit19.html)
+<a name="level19"></a>
 
 Now the problem is that once we login we are automatically kicked out
 
@@ -1002,8 +1002,8 @@ myuser@myuser:~$
 
 So we got kicked out but we were still able to run the command which gave us the password. NICE! Next one.
 
-<a name="level20"></a>
 ## [Level 20](http://overthewire.org/wargames/bandit/bandit20.html)
+<a name="level20"></a>
 
 Let's check the challenge description:
 
@@ -1035,8 +1035,8 @@ GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 
 So we ran **cat** as **bandit20** and gave it the file we wanted to print as an argument. This should be easy by now.
 
-<a name="level21"></a>
 ## [Level 21](http://overthewire.org/wargames/bandit/bandit21.html)
+<a name="level21"></a>
 
 This challenge is really well detailed in the description so i'll just paste it here
 
@@ -1089,8 +1089,8 @@ bandit20@bandit:~$
 
 There we go. DONE! This was interesting! Next one.
 
-<a name="level22"></a>
 ## [Level 22](http://overthewire.org/wargames/bandit/bandit22.html)
+<a name="level22"></a>
 
 A program is running periodically using **cron**. Let's look into `/etc/cron.d/`.
 
@@ -1132,8 +1132,8 @@ Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
 
 We got it! Next level.
 
-<a name="level23"></a>
 ## [Level 23](http://overthewire.org/wargames/bandit/bandit23.html)
+<a name="level23"></a>
 
 This one is pretty much like the previous one but it's a different **cron** job running.
 
@@ -1173,8 +1173,8 @@ jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 
 Done. Onto the next one.
 
-<a name="level24"></a>
 ## [Level 24](http://overthewire.org/wargames/bandit/bandit24.html)
+<a name="level24"></a>
 
 Let's see this challenge description since they have a few importante notes:
 
@@ -1241,8 +1241,8 @@ UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
 
 Success!!! Let's go onto the next one.
 
-<a name="level25"></a>
 ## [Level 25](http://overthewire.org/wargames/bandit/bandit25.html)
+<a name="level25"></a>
 
 
 >A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.
@@ -1303,8 +1303,8 @@ Exiting.
 
 Next one.
 
-<a name="level26"></a>
 ## [Level 26](http://overthewire.org/wargames/bandit/bandit26.html)
+<a name="level26"></a>
 
 So the challenge now says,
 
@@ -1418,8 +1418,8 @@ bandit26@bandit:~$
 
 WE GOT A SHELL!!! Next challenge then.
 
-<a name="level27"></a>
 ## [Level 27](http://overthewire.org/wargames/bandit/bandit27.html)
+<a name="level27"></a>
 
 We will be using the shell established from the previous level. Let's check the current directory.
 
@@ -1446,8 +1446,8 @@ bandit26@bandit:~$ ./bandit27-do cat /etc/bandit_pass/bandit27
 Good job! Next.
 
 
-<a name="level28"></a>
 ## [Level 28](http://overthewire.org/wargames/bandit/bandit28.html)
+<a name="level28"></a>
 
 In this challenge we will have to work with **git** if you know nothing about it you should google it and read a few cheatsheets.
 
@@ -1503,8 +1503,8 @@ The password to the next level is: 0ef186ac70e04ea33b4c1853d2526fa2
 
 Done.
 
-<a name="level29"></a>
 ## [Level 29](http://overthewire.org/wargames/bandit/bandit29.html)
+<a name="level29"></a>
 
 Once again in this challenge we will have to work with git,
 
@@ -1621,8 +1621,8 @@ Some notes for level29 of bandit.
 
 We got the password. Good job! Onto the next one.
 
-<a name="level30"></a>
 ## [Level 30](http://overthewire.org/wargames/bandit/bandit30.html)
+<a name="level30"></a>
 
 Same thing as before. We have a repo we need to clone it to a folder.
 
@@ -1837,8 +1837,8 @@ Some notes for bandit30 of bandit.
 
 This should do it. Good job.
 
-<a name="level31"></a>
 ## [Level 31](http://overthewire.org/wargames/bandit/bandit31.html)
+<a name="level31"></a>
 
 This challenge is still related to **git**. So we'll just follow the same steps as before, create the directory and clone the repo in there.
 
@@ -1915,8 +1915,8 @@ bandit30@bandit:/tmp/gitfolder4/repo$ git show secret
 
 We got the password. Next one!
 
-<a name="level32"></a>
 ## [Level 32](http://overthewire.org/wargames/bandit/bandit32.html)
+<a name="level32"></a>
 
 Once gain this challenge uses git.
 
@@ -2038,8 +2038,8 @@ error: failed to push some refs to 'ssh://bandit31-git@localhost/home/bandit31-g
 
 We got the password! Good job.
 
-<a name="level33"></a>
 ## [Level 33](http://overthewire.org/wargames/bandit/bandit33.html)
+<a name="level33"></a>
 
 > After all this git stuff its time for another escape. Good luck!
 
@@ -2085,8 +2085,8 @@ c9c3199ddf4121b10cf581a98d51caee
 
 Done! Next one!
 
-<a name="level34"></a>
 ## [Level 34](http://overthewire.org/wargames/bandit/bandit34.html)
+<a name="level34"></a>
 
 ```
 bandit33@bandit:~$ ls -la
