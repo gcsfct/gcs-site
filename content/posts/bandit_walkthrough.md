@@ -17,7 +17,7 @@ You can read more about the challenge and how it works [here](http://overthewire
 Levels:
 
 - [Introduction](#introduction)
-  - [Level 0](#level-0)
+  - [Level 0]({{<relref "#level-0" >}})
   - [Level 1](#level-1)
   - [Level 2](#level-2)
   - [Level 3](#level-3)
