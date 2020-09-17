@@ -1,5 +1,5 @@
 ---
-title: "CSAW2020 - flask_caching"
+title: "CSAW 2020 - flask_caching"
 date: 2020-09-17T00:00:00Z
 draft: false
 ---
