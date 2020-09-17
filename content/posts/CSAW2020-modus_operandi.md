@@ -103,7 +103,7 @@ Traceback (most recent call last):
 EOFError
 ```
 
-It gave us a EOF after a while. After trying a couple of times we would understand this behaviour is recurrent.
+It gave us an EOF after a while. After trying a couple of times we would understand this behaviour is recurrent.
 
 After fiddling a bit (a lot actually) we can get to the result by checking out the cipher modes sequence.
 
