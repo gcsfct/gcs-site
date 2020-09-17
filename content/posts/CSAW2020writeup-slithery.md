@@ -1,6 +1,6 @@
 ---
-title: "CSAW2020 - slithery"
-date: 2020-09-17T22:41:28Z
+title: "CSAW 2020 - slithery"
+date: 2020-09-17T00:00:00Z
 draft: false
 ---
 
