@@ -1,6 +1,6 @@
 ---
 title: "CSAW 2020 - modus_operandi"
-date: 2020-09-1700:00:00Z
+date: 2020-09-17T00:00:00Z
 author: "Bruno Anjos"
 description: "CSAW 2020 crypto challenge"
 ---
