@@ -36,9 +36,9 @@ title ="NOVA CTF"
     copyright = ""
     readOtherPosts = "Read other posts"
 
-    [languages.en.params.logo]
-      logoText = "cd /novactf"
-      logoHomeLink = "/"
+  [languages.en.params.logo]
+    logoText = "cd /novactf"
+    logoHomeLink = "/"
 
 # Social icons
 [[params.social]]
