@@ -1,0 +1,1027 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=author content><meta name=description content="Introduction Over The Wire provides multiple challenges focused on different topics of computer systems. The one which we will solve here is Bandit. This is focused on SSH communication, bash commands and some basic UNIX concepts.
+To connect to any of these levels you need 2 things: a username, and a password. Each level has a username in the format bandit&amp;lt;level_number&amp;gt; (without the &amp;lsquo;&amp;lt;&amp;rsquo; &amp;lsquo;&amp;gt;') so for level 0 the username would be bandit0."><meta name=keywords content><meta name=robots content="noodp"><meta name=theme-color content="#252627"><link rel=canonical href=/posts/otw-bandit_walkthrough/><title>Over The Wire - Bandit Walkthrough :: NOVA CTF — FCT @ UNL</title><link href=https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css rel=stylesheet type=text/css><link rel=stylesheet href=/main.min.94127ca3b2f97e5bba77859c12fd8f442fd739192280fae759c86cf979ccebe0.css><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#252627><link rel="shortcut icon" href=/favicon.ico><meta name=msapplication-TileColor content="#252627"><meta name=theme-color content="#252627"><meta itemprop=name content="Over The Wire - Bandit Walkthrough"><meta itemprop=description content="Introduction Over The Wire provides multiple challenges focused on different topics of computer systems. The one which we will solve here is Bandit. This is focused on SSH communication, bash commands and some basic UNIX concepts.
+To connect to any of these levels you need 2 things: a username, and a password. Each level has a username in the format bandit<level_number> (without the &lsquo;<&rsquo; &lsquo;>') so for level 0 the username would be bandit0."><meta itemprop=datePublished content="2019-12-26T22:41:28+00:00"><meta itemprop=dateModified content="2019-12-26T22:41:28+00:00"><meta itemprop=wordCount content="10393"><meta itemprop=image content="/"><meta itemprop=keywords content><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="/"><meta name=twitter:title content="Over The Wire - Bandit Walkthrough"><meta name=twitter:description content="Introduction Over The Wire provides multiple challenges focused on different topics of computer systems. The one which we will solve here is Bandit. This is focused on SSH communication, bash commands and some basic UNIX concepts.
+To connect to any of these levels you need 2 things: a username, and a password. Each level has a username in the format bandit<level_number> (without the &lsquo;<&rsquo; &lsquo;>') so for level 0 the username would be bandit0."><meta property="article:published_time" content="2019-12-26 22:41:28 +0000 UTC"></head><body class=dark-theme><div class=container><header class=header><span class=header__inner><a href=/ style=text-decoration:none><div class=logo><span class=logo__mark>></span>
+<span class=logo__text>cd /novactf</span>
+<span class=logo__cursor></span></div></a><span class=header__right><nav class=menu><ul class=menu__inner><li><a href=/about>About</a></li><li><a href=https://discord.gg/BqUuGsY>Sign Up</a></li></ul></nav><span class=menu-trigger><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></span><span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22 41 11.5066 32.4934 3 22 3 11.5066 3 3 11.5066 3 22s8.5066 19 19 19zM7 22C7 13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22z"/></svg></span></span></span></header><div class=content><main class=post><div class=post-info><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>49 minutes</p></div><article><h1 class=post-title><a href=/posts/otw-bandit_walkthrough/>Over The Wire - Bandit Walkthrough</a></h1><div class=post-content><h1 id=introduction>Introduction</h1><p><a href=http://overthewire.org/wargames/>Over The Wire</a> provides multiple challenges focused on different topics of computer systems.
+The one which we will solve here is Bandit. This is focused on SSH communication, bash commands and some basic UNIX concepts.</p><p>To connect to any of these levels you need 2 things: a username, and a password. Each level has a username in the format <strong>bandit&lt;level_number></strong> (without the &lsquo;&lt;&rsquo; &lsquo;>') so for level 0 the username would be <strong>bandit0</strong>. Then each level also has a password. Usually you find the password for the next level on the current one, this meaning that in level 0 you will find the password for level 1, which you will login with <strong>bandit1</strong> and the password you found.</p><p>You can read more about the challenge and how it works <a href=http://overthewire.org/wargames/bandit/>here</a>.</p><p>Levels:</p><ul><li><a href=#introduction>Introduction</a><ul><li><a href=#level-0>Level 0</a></li><li><a href=#level-1>Level 1</a></li><li><a href=#level-2>Level 2</a></li><li><a href=#level-3>Level 3</a></li><li><a href=#level-4>Level 4</a></li><li><a href=#level-5>Level 5</a></li><li><a href=#level-6>Level 6</a></li><li><a href=#level-7>Level 7</a></li><li><a href=#level-8>Level 8</a></li><li><a href=#level-9>Level 9</a></li><li><a href=#level-10>Level 10</a></li><li><a href=#level-11>Level 11</a></li><li><a href=#level-12>Level 12</a></li><li><a href=#level-13>Level 13</a></li><li><a href=#level-14>Level 14</a></li><li><a href=#level-15>Level 15</a></li><li><a href=#level-16>Level 16</a></li><li><a href=#level-17>Level 17</a></li><li><a href=#level-18>Level 18</a></li><li><a href=#level-19>Level 19</a></li><li><a href=#level-20>Level 20</a></li><li><a href=#level-21>Level 21</a></li><li><a href=#level-22>Level 22</a></li><li><a href=#level-23>Level 23</a></li><li><a href=#level-24>Level 24</a></li><li><a href=#level-25>Level 25</a></li><li><a href=#level-26>Level 26</a></li><li><a href=#level-27>Level 27</a></li><li><a href=#level-28>Level 28</a></li><li><a href=#level-29>Level 29</a></li><li><a href=#level-30>Level 30</a></li><li><a href=#level-31>Level 31</a></li><li><a href=#level-32>Level 32</a></li><li><a href=#level-33>Level 33</a></li><li><a href=#level-34>Level 34</a></li></ul></li></ul><h2 id=level-0>Level 0</h2><p>So we need to login as <strong>bandit0</strong> using the password <strong>bandit0</strong> at <strong>bandit.labs.overthewire.org</strong> using SSH. It&rsquo;s also said that the connection should be done to port <strong>2220</strong>.</p><p>We can use the <strong>man</strong> command followed by <strong>ssh</strong> to get information on how to use ssh. The <strong>man</strong> command is super useful, but sometimes can present you with more information then you need. A nice alternative is the <strong>tldr</strong> command which you can install through your package manager (have in mind that you won&rsquo;t be able to use it once you login through ssh since you can&rsquo;t install anything in the bandit machine). It also takes the command that you want to see more information as an argument but it shows you some examples frequently used. So by doing <code>tldr ssh</code> we get one of the lines saying</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>- Connect to a remote server using a specific port:                    
+  ssh username@remote_host -p <span style=color:#ae81ff>2222</span>
+</code></pre></div><p>which we can change with the arguments we have, resulting in <code>ssh bandit0@bandit.labs.overthewire.org -p 2220</code>. Now we know how to make a basic ssh connection with a username and a port. After we execute the command a password is asked. We insert <strong>bandit0</strong> and finally we have an open ssh connection, which we can see by the prompt <code>bandit0@bandit:~$</code>.</p><p>Ok now we can go to the next level.</p><h2 id=level-1>Level 1</h2><p>We will use the connection established in <a href=#level-0>Level 0</a> to solve this level. They say that the password for the next level is stored in the file called <strong>readme</strong>. To print the content of the file we can use the <code>cat</code> command which takes the file you want to see.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit0@bandit:~$ cat readme
+boJ9jbbUNNfktd78OOpsqOltutMc3MY1
+</code></pre></div><p>So now that we have the password we can go to the next level.</p><h2 id=level-2>Level 2</h2><p>In this level the password is in a file called <code>-</code>. The problem here is that the character <code>-</code> is used as a special character to represent stdin (<a href=https://unix.stackexchange.com/questions/16357/usage-of-dash-in-place-of-a-filename>more information on this here</a>), so in this case we should be able to see its content if we specify the filename in a path format like</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit1@bandit:~$ cat ./-
+CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
+</code></pre></div><p>The <code>.</code> means the current directory, so what we are representing is the current directory, which inside has a file named <code>-</code>.</p><h2 id=level-3>Level 3</h2><p>So now the file that we want to see is called <code>spaces in this filename</code>. The challenge here is that if we do like before and use the command <strong>cat</strong> followed by the name we get this</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit2@bandit:~$ cat spaces in this filename 
+cat: spaces: No such file or directory
+cat: in: No such file or directory
+cat: this: No such file or directory
+cat: filename: No such file or directory
+</code></pre></div><p>Wait what???</p><p>So the problem here is that as we&rsquo;ve seen before commands take arguments so what we are doing is calling the <strong>cat</strong> command with 4 arguments: <strong>spaces</strong>, <strong>in</strong>, <strong>this</strong> and <strong>filename</strong>. This is not what we want at all. What we want is to print the file named <code>spaces in this filename</code>. So the way to do it is to give it to the command as a whole string by surrounding it with <code>"</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit2@bandit:~$ cat <span style=color:#e6db74>&#34;spaces in this filename&#34;</span> 
+UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+</code></pre></div><p>Onto the next level.</p><h2 id=level-4>Level 4</h2><p>Now the file that contains the password is a hidden file and is in the <code>inhere</code> directory. To change directory we use the <strong>cd</strong> command.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit3@bandit:~$ cd inhere
+</code></pre></div><p>Now we know that we are in the <code>inhere</code> directory because the bash prompt says it <code>bandit3@bandit:~/inhere$</code>.</p><p>If we list the files in the current directory, which we can do by executing the command <code>ls</code> we get a blank listing.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit3@bandit:~/inhere$ ls
+bandit3@bandit:~/inhere$ 
+</code></pre></div><p>Ok it makes sense. The challenge said that the file was hidden. You can search a bit about hidden files in UNIX systems and you will eventually find out that by convention the hidden files start with a <code>.</code>. To list hidden files you can do <code>man ls</code> and see that there is a flag that you can pass to list <strong>all</strong> entries, not ignoring those starting with <code>.</code> (to quit <strong>man</strong> simply hit <strong>q</strong>).</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit3@bandit:~/inhere$ ls -a
+.  ..  .hidden
+</code></pre></div><p>Ok as we can see there is a file named <code>.hidden</code> that should be the one (the other two <code>.</code>, <code>..</code> are the current directory and the parent directory respectively).</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit3@bandit:~/inhere$ cat .hidden
+pIwrPrtPN36QITSp3EQaw936yaFoFgAB
+</code></pre></div><p>So by using <strong>cat</strong> with the filename we can then get the password for the next level.</p><h2 id=level-5>Level 5</h2><p>So now the password is stored in the only human-readable file in the <code>inhere</code> directory. As we&rsquo;ve seen before to change directory we can use the <strong>cd</strong> command. Then we can list the files in the current directory by using ls (i use the <strong>-l</strong> flag just to display it as a vertical listing).</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit4@bandit:~/inhere$ ls -l
+total <span style=color:#ae81ff>40</span>
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file00
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file01
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file02
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file03
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file04
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file05
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file06
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file07
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file08
+-rw-r----- <span style=color:#ae81ff>1</span> bandit5 bandit4 <span style=color:#ae81ff>33</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> -file09
+</code></pre></div><p>Ok so we have 10 files. The listing doesn&rsquo;t tells us much about them. On the other hand one of suggested commands <strong>file</strong> can tell us interesting things about each file, maybe know which one is human-readable we hope. So what we can do is calling <strong>file</strong> on all the files in this directory. There are two ways to do this: the bruteforce way and the smart way. The bruteforce way is to run <code>file -fileXX</code> (replacing XX for the file number) for each file in the directory. The smart way is to use the symbol <code>*</code> that matches with every file name, this meaning that using <code>*</code> or every filename separated by spaces is the same.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit4@bandit:~/inhere$ file *
+file: Cannot open <span style=color:#e6db74>`</span>ile00<span style=color:#e6db74>&#39; (No such file or directory).
+</span><span style=color:#e6db74>file: Cannot open `ile01&#39;</span> <span style=color:#f92672>(</span>No such file or directory<span style=color:#f92672>)</span>.
+file: Cannot open <span style=color:#e6db74>`</span>ile02<span style=color:#e6db74>&#39; (No such file or directory).
+</span><span style=color:#e6db74>file: Cannot open `ile03&#39;</span> <span style=color:#f92672>(</span>No such file or directory<span style=color:#f92672>)</span>.
+file: Cannot open <span style=color:#e6db74>`</span>ile04<span style=color:#e6db74>&#39; (No such file or directory).
+</span><span style=color:#e6db74>file: Cannot open `ile05&#39;</span> <span style=color:#f92672>(</span>No such file or directory<span style=color:#f92672>)</span>.
+file: Cannot open <span style=color:#e6db74>`</span>ile06<span style=color:#e6db74>&#39; (No such file or directory).
+</span><span style=color:#e6db74>file: Cannot open `ile07&#39;</span> <span style=color:#f92672>(</span>No such file or directory<span style=color:#f92672>)</span>.
+file: Cannot open <span style=color:#e6db74>`</span>ile08<span style=color:#e6db74>&#39; (No such file or directory).
+</span><span style=color:#e6db74>file: Cannot open `ile09&#39;</span> <span style=color:#f92672>(</span>No such file or directory<span style=color:#f92672>)</span>.
+</code></pre></div><p>&ldquo;Wait&mldr; You said this was the smart way and it didn&rsquo;t work, that doesn&rsquo;t seem very smart to me.&rdquo; I know, i know just give me a chance. So the problem here is that the files begin by a <code>-</code>, and we&rsquo;ve encountered this problem before. Let&rsquo;s do as we did before by putting the filenames in a path like format, so <code>./*</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit4@bandit:~/inhere$ file ./*
+./-file00: data
+./-file01: data
+./-file02: data
+./-file03: data
+./-file04: data
+./-file05: data
+./-file06: data
+./-file07: ASCII text
+./-file08: data
+./-file09: data
+</code></pre></div><p>Ohhh so now it worked, okay. This tells us that the only file that has an <code>ASCII text</code> type is <code>-file07</code>. This is the one.</p><p>So we use <strong>cat</strong> no surprise there and we get</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit4@bandit:~/inhere$ cat ./-file07
+koReBOKuIDDepwhWk7jZC0RTdopnAYKh
+</code></pre></div><p>Done. Next level.</p><h2 id=level-6>Level 6</h2><p>So now the password is in a file stored in the <code>inhere</code> directory and has three properties:</p><ul><li>human-readable</li><li>1033 bytes in size</li><li>not executable</li></ul><p>So lets <strong>cd</strong> onto <code>inhere</code> and the list its content.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit5@bandit:~/inhere$ ls -l
+total <span style=color:#ae81ff>80</span>
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere00
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere01
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere02
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere03
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere04
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere05
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere06
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere07
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere08
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere09
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere10
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere11
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere12
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere13
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere14
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere15
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere16
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere17
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere18
+drwxr-x--- <span style=color:#ae81ff>2</span> root bandit5 <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> maybehere19
+</code></pre></div><p>Ok so here bruteforce might not be worth it since each of those entries is a directory and has multiple files. We can use one of the suggested commands named <strong>find</strong> which, guess what, finds stuff.</p><p>So to learn a bit about find you can use <strong>man</strong> and just so you know you can search words in <strong>man</strong> by hitting <strong>/</strong> and then typing the word you want to lookup. We can lookup <code>size</code> and <code>readable</code> in there which will give us 2 flags to use: <code>-size</code> and <code>-readable</code>. <code>-size</code> works with the number of units you want followed by the character that represents the unit. So in our case we want 1033 bytes, so the result will be <code>-size 1033c</code>. The readable flag needs no argument. The final command is:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit5@bandit:~/inhere$ find -size 1033c -readable
+./maybehere07/.file2
+</code></pre></div><p><strong>find</strong> searches by default in your current directory. The result is only one file so we don&rsquo;t need to care about it being executable or not.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit5@bandit:~/inhere$ cat ./maybehere07/.file2
+DXjZPULLxYr17uwoI01bNLQbtFemEgo7
+</code></pre></div><p>Onto the next level.</p><h2 id=level-7>Level 7</h2><p>In this level the password is stored <strong>somewhere in the server</strong> with a few properties:</p><ul><li>owned by user bandit7</li><li>owned by group bandit6</li><li>33 bytes in size</li></ul><p><strong>find</strong> should do the job here as well, it&rsquo;s just a matter of finding the flags associated with the functionalities. We already know how to use the <code>-size</code> so that&rsquo;s going to be <code>-size 33c</code>. After digging a bit in the <strong>man</strong>, we can see that <code>-user</code> and <code>-group</code> do what we want.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit6@bandit:~$ find -user bandit7 -group bandit6 -size 33c
+bandit6@bandit:~$
+</code></pre></div><p>Wait&mldr; No file matched what we wanted. The trick here is that it says <strong>somewhere in the server</strong> so to search everywhere and not just the current directory we have to give the <code>/</code> directory (which is the root) as an argument to <strong>find</strong>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit6@bandit:~$ find / -user bandit7 -group bandit6 -size 33c
+find: ‘/run/lvm’: Permission denied
+<span style=color:#f92672>(</span>...more...<span style=color:#f92672>)</span>
+find: ‘/var/cache/apt/archives/partial’: Permission denied
+/var/lib/dpkg/info/bandit7.password
+find: ‘/var/lib/apt/lists/partial’: Permission denied
+<span style=color:#f92672>(</span>...more...<span style=color:#f92672>)</span>
+find: ‘/boot/lost+found’: Permission denied
+</code></pre></div><p>Well as you can see there are a lot of errors but the file is there. If you want to clean it up you can redirect the error output to <code>/dev/null</code> so the errors don&rsquo;t show up.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit6@bandit:~$ find / -user bandit7 -group bandit6 -size 33c 2&gt; /dev/null
+/var/lib/dpkg/info/bandit7.password
+</code></pre></div><p>Ok so we found the file. We just need to use <strong>cat</strong> and we should get the password.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit6@bandit:~$ cat <span style=color:#66d9ef>$(</span>find / -user bandit7 -group bandit6 -size 33c 2&gt; /dev/null<span style=color:#66d9ef>)</span>
+HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
+</code></pre></div><p>Quick note, what i did in the previous command was telling bash that <strong>cat</strong> took the result of another command (<strong>find</strong>) as an argument, we do this by surrounding it with <code>$()</code>. This tells bash that what&rsquo;s inside is not only text, it&rsquo;s actually a command. So then the resulting output of the <strong>find</strong> command <code>/var/lib/dpkg/info/bandit7.password</code> will be an argument to <strong>cat</strong>.</p><h2 id=level-8>Level 8</h2><p>New challenge. The password is stored in the file <code>data.txt</code> next to the word <code>millionth</code>. Ok so let&rsquo;s see the content of the file.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit7@bandit:~$ cat data.txt
+humiliation<span style=color:#e6db74>&#39;s   47r0YuNylaQ3k6HqGF5NsPPiGuolDCjn
+</span><span style=color:#e6db74>malarkey&#39;</span>s      0huyJeRwvtJaoyRmJjQFsRnQcYG4gDir
+<span style=color:#f92672>(</span>...A LOT MORE...<span style=color:#f92672>)</span>
+chemical        7D5J0CAJMWr2Ryb9uB0kSRuqz7BQPv6X
+shaded  v5MBdtwMnmZ9YlheYVOxBJiOSxp9BeAA
+</code></pre></div><p>We won&rsquo;t be able to find this just by seeing the file&rsquo;s content, we will need some sort of finder, but for a file&rsquo;s content. So once again we will see the suggested commands, and one that fits our needs is <strong>grep</strong>. Now a way we can do this is by using the file&rsquo;s content as the content to look in. On the <strong>man grep</strong> page it says that you can pass the file as an argument, the other way is that if you don&rsquo;t specify a file <strong>grep</strong> will use the standard input. So the first way of doing this is:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit7@bandit:~$ grep millionth data.txt 
+millionth       cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+</code></pre></div><p>Easy. Another way that teaches you a few other concepts is doing it like this:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit7@bandit:~$ cat data.txt | grep millionth
+millionth       cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+</code></pre></div><p>What we are doing here is called pipelining commands. What it does is using the output of the first command as the input of the second one, so <strong>grep</strong> will use the standard input (which will be the output produced by <strong>cat</strong>) to search the term <code>millionth</code>.</p><p>Onto the next level.</p><h2 id=level-9>Level 9</h2><p>Now the password is still stored in <code>data.txt</code> but now they say is the only line that is unique.
+We will <strong>cat</strong> the file just to see its content</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit8@bandit:~$ cat data.txt 
+KerqNiDbY0zV2VxnOCmWX5XWxumldlAe
+MsxcvOe3PGrt78wpZG2bBNF5wfXpZhET
+<span style=color:#f92672>(</span>...more...<span style=color:#f92672>)</span>
+YzZX7E35vOa6IQ9SRUGdlEpyaiyjvWXE
+DXI6y5CNPU06rVpkoZgnZJBWfkdW131j
+</code></pre></div><p>So once again we won&rsquo;t be able to get the unique line without using a few tools.
+There is a suggested command named <code>uniq</code>, sounds like what we need by checking the <strong>man</strong> page.
+So the way to use the command is by passing the flag <code>-u</code> that tells <code>uniq</code> to only print unique lines.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit8@bandit:~$ uniq -u data.txt                    
+KerqNiDbY0zV2VxnOCmWX5XWxumldlAe
+MsxcvOe3PGrt78wpZG2bBNF5wfXpZhET
+<span style=color:#f92672>(</span>...more...<span style=color:#f92672>)</span>
+YzZX7E35vOa6IQ9SRUGdlEpyaiyjvWXE
+DXI6y5CNPU06rVpkoZgnZJBWfkdW131j
+</code></pre></div><p>Wait&mldr; It gave us the same. Let&rsquo;s check the <strong>man</strong> page again.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>NAME
+       uniq - report or omit repeated lines
+
+SYNOPSIS
+       uniq <span style=color:#f92672>[</span>OPTION<span style=color:#f92672>]</span>... <span style=color:#f92672>[</span>INPUT <span style=color:#f92672>[</span>OUTPUT<span style=color:#f92672>]]</span>
+
+DESCRIPTION
+       Filter adjacent matching lines from INPUT <span style=color:#f92672>(</span>or standard input<span style=color:#f92672>)</span>, writing to OUTPUT <span style=color:#f92672>(</span>or standard output<span style=color:#f92672>)</span>.
+</code></pre></div><p>Ok then. So it only filters <strong>adjacent matching lines</strong>. So what we could do is sort the lines so that all the repeated lines be adjacent to one another. Guess what, one of the suggested commands is <strong>sort</strong>, that should do it. We look a bit into the <strong>man</strong> page to see how it works and is nothing special, <strong>sort</strong> followed by the file name. Now <strong>sort</strong> writes to the standard output so what we can do is pipelining, check <a href=#level-8>Level 8</a> for more information on this.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit8@bandit:~$ sort data.txt | uniq -u
+UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+</code></pre></div><p>Ok there we go. We have the password, let&rsquo;s go to the next level.</p><h2 id=level-10>Level 10</h2><p>Now the password is stored in the file <code>data.txt</code> and is one of the few human-readable strings, beginning with several <code>=</code> characters. Now we already know what a few of the suggested commands do, so we know they&rsquo;re not quite what we want. Let&rsquo;s check out <strong>strings</strong>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>NAME
+       strings - print the strings of printable characters in files.
+</code></pre></div><p>Ok. We can try combining <strong>strings</strong> with <strong>grep</strong> in order to get only the strings that have a <code>=</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit9@bandit:~$ strings data.txt | grep <span style=color:#f92672>=</span>
+2<span style=color:#f92672>==========</span> the
+<span style=color:#f92672>==========</span> password
+&gt;t<span style=color:#f92672>=</span>     yP
+rV~dHm<span style=color:#f92672>=</span>
+<span style=color:#f92672>==========</span> isa
+<span style=color:#f92672>=</span>FQ?P<span style=color:#ae81ff>\U</span>
+<span style=color:#f92672>=</span>       F<span style=color:#f92672>[</span>
+pb<span style=color:#f92672>=</span>x
+J;m<span style=color:#f92672>=</span>
+<span style=color:#f92672>=)</span>$<span style=color:#f92672>=</span>
+<span style=color:#f92672>==========</span> truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
+iv8!<span style=color:#f92672>=</span>
+</code></pre></div><p>Ok we can assume the password is the penultimate line, minus the <code>=</code>s of course.</p><h2 id=level-11>Level 11</h2><p>Now the password is still stored in <code>data.txt</code> but encoded with base64. There is a suggested command named <code>base64</code> that might be useful.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>NAME
+       base64 - base64 encode/decode data and print to standard output
+</code></pre></div><p>Ok, it can decode base64 so that should do it. To decode we use the <code>-d</code> flag.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit10@bandit:~$ base64 -d data.txt 
+The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+</code></pre></div><p><em>DJ Khaled Voice:</em> Another one</p><h2 id=level-12>Level 12</h2><p>The password is stored in the file <code>data.txt</code>, but all lowercase and uppercase letters have been rotated 13 positions. This is called ROT13 (you can google it to get some more information on this). It&rsquo;s a ceasar&rsquo;s cipher with the <strong>n</strong> equal to 13 (you can google this as well). So by checking out the suggested commands there are a few that we already know that are not suitable for this. One of the new ones is <strong>tr</strong>. Let&rsquo;s check the <strong>man</strong> page.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>NAME
+       tr - translate or delete characters
+</code></pre></div><p>Ok. So it translates characters. I guess that&rsquo;s what we kind of want. We want to translate &lsquo;a&rsquo; to 13 positions ahead. So a quick google of <code>tr ROT13</code> would land us on the <a href=https://en.wikipedia.org/wiki/ROT13>Wikipedia page</a>. In the page there is an implementation of ROT13 using <strong>tr</strong>. We can kind of reverse engineer it and get what we want. This is the way to encode <code>tr 'A-Za-z' 'N-ZA-Mn-za-m'</code>, so to decode it should be the other way around right? <code>tr 'N-ZA-Mn-za-m' 'A-Za-z'</code></p><p>Well let&rsquo;s try it. <strong>tr</strong> uses the standard input, so we will pipeline it using <strong>cat</strong>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit11@bandit:~$ cat data.txt | tr <span style=color:#e6db74>&#39;N-ZA-Mn-za-m&#39;</span> <span style=color:#e6db74>&#39;A-Za-z&#39;</span>
+The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+</code></pre></div><p>Perfect. Next level.</p><h2 id=level-13>Level 13</h2><p>Let&rsquo;s see the challenge description,</p><blockquote><p>The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work using mkdir. For example: mkdir /tmp/myname123. Then copy the datafile using cp, and rename it using mv (read the manpages!)</p></blockquote><p>Ok understood. Let&rsquo;s follow the useful tips.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:~$ mkdir /tmp/dirforfiles
+</code></pre></div><p>Now we have a directory to work with our files. Let&rsquo;s copy our file in there first</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:~$ cp data.txt /tmp/dirforfiles
+</code></pre></div><p>Done. Let&rsquo;s change our current directory to the one we created.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:~$ cd /tmp/dirforfiles
+bandit12@bandit:/tmp/dirforfiles$ 
+</code></pre></div><p>So they said that the file was a hexdump let&rsquo;s check <strong>xxd</strong>&rsquo;s <strong>man</strong> page.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>NAME
+       xxd - make a hexdump or <span style=color:#66d9ef>do</span> the reverse.
+</code></pre></div><p>Ok what we want is to reverse it back to it&rsquo;s original state. We use the <code>-r</code> flag to do this.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ xxd -r data.txt 
+�▒▒h��6��@4▒bi���h▒91AY&amp;SY���������ϟ���������������׽��9��
+    �mF�h�h44
+▒��B��,0��   ��4@�����@2▒C@h�� �
+�ɋ�^-K�����<span style=color:#f92672>}</span>�<span style=color:#ae81ff>\,</span>�▒ǿ�<span style=color:#f92672>}</span>E�F�_!r�U�g?E�i��9x��TB@�lȲ���BF.hM�SC4�V�F��R�Br<span style=color:#e6db74>&#34;�&lt;(Hت</span>$<span style=color:#e6db74>    </span>$<span style=color:#e6db74>���KBs��%l▒~�_�▒ݿ����g�zM�w�#P&#34;</span>2@������
+
+��<span style=color:#ae81ff>\�</span>�WQO4�p�i�����S�#&amp;��/�#��<span style=color:#f92672>[</span>j▒�&lt;D�uԐ^_�H.�-��wAt
+                                                  �<span style=color:#f92672>[</span>��UP�G�CP��&amp;:�2�*�<span style=color:#f92672>)</span>�<span style=color:#ae81ff>\�</span>������H�
+�<span style=color:#ae81ff>\�</span>7��w&lt;bandit12@bandit:/tmp/dirforfiles$
+</code></pre></div><p>Ok. I think i broke it&mldr; So what happened was that <strong>xxd</strong> reversed it back to a binary but wrote the result to the standard output. Let&rsquo;s redirect it to a file.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ xxd -r data.txt &gt; original
+bandit12@bandit:/tmp/dirforfiles$ 
+</code></pre></div><p>Ok. It worked. Let&rsquo;s check what we are dealing with by using the <strong>file</strong> command to check some more information on the file we just created.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ file original 
+original: gzip compressed data, was <span style=color:#e6db74>&#34;data2.bin&#34;</span>, last modified: Tue Oct <span style=color:#ae81ff>16</span> 12:00:23 2018, max compression, from Unix
+</code></pre></div><p>So it&rsquo;s a gzip file, let&rsquo;s learn how to decompress it by checking <strong>man gzip</strong>. So there is a flag <code>-d</code> that is used to decompress, let&rsquo;s do it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ gzip -d original
+gzip: original: unknown suffix -- ignored
+</code></pre></div><p>Hmmm&mldr; Weird. The suffix is what goes at the end of the filename i guess&mldr; OH RIGHT the file extension. This file has no extension and <strong>gzip</strong> doesn&rsquo;t like it. Let&rsquo;s give it a proper name.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ mv original original.gz
+</code></pre></div><p>Ok now let&rsquo;s try it again.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ gzip -d original.gz 
+bandit12@bandit:/tmp/dirforfiles$ 
+</code></pre></div><p>Ok no error. It worked i assume. Now we can list the dir to see what we have.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ ls -la
+total <span style=color:#ae81ff>1896</span>
+drwxr-sr-x     <span style=color:#ae81ff>2</span> bandit12 root    <span style=color:#ae81ff>4096</span> Jun <span style=color:#ae81ff>29</span> 16:12 .
+drwxrws-wt <span style=color:#ae81ff>54536</span> root     root <span style=color:#ae81ff>1925120</span> Jun <span style=color:#ae81ff>29</span> 16:14 ..
+-rw-r-----     <span style=color:#ae81ff>1</span> bandit12 root    <span style=color:#ae81ff>2581</span> Jun <span style=color:#ae81ff>29</span> 16:04 data.txt
+-rw-r--r--     <span style=color:#ae81ff>1</span> bandit12 root     <span style=color:#ae81ff>572</span> Jun <span style=color:#ae81ff>29</span> 16:09 original
+</code></pre></div><p>Ok so the file named <code>original</code> is the result of the decompression. Let&rsquo;s analyze it again with the <strong>file</strong> command.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ file original 
+original: bzip2 compressed data, block size <span style=color:#f92672>=</span> 900k
+</code></pre></div><p>So now it&rsquo;s compressed with <strong>bzip2</strong>. TO THE <strong>MAN</strong> PAGE!</p><p>Once again the <code>-d</code> flag does it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ bzip2 -d original
+bzip2: Can<span style=color:#960050;background-color:#1e0010>&#39;</span>t guess original name <span style=color:#66d9ef>for</span> original -- using original.out
+</code></pre></div><p>Hm&mldr; I guess it worked. <strong>bzip2</strong> isn&rsquo;t as picky as <strong>gzip</strong> with the whole file extension thing. It just warned us that it couldn&rsquo;t guess the original name so it just used that one. That&rsquo;s ok for us. Let&rsquo;s use <strong>file</strong> again.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ file original.out
+original.out: gzip compressed data, was <span style=color:#e6db74>&#34;data4.bin&#34;</span>, last modified: Tue Oct <span style=color:#ae81ff>16</span> 12:00:23 2018, max compression, from Unix
+</code></pre></div><p>Ohhh back to gzip. I know this one. We have to change the file extension before decompressing it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ mv original.out original.gz
+</code></pre></div><p>Now decompress it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ gzip -d original.gz 
+bandit12@bandit:/tmp/dirforfiles$ ls -la
+total <span style=color:#ae81ff>1912</span>
+drwxr-sr-x     <span style=color:#ae81ff>2</span> bandit12 root    <span style=color:#ae81ff>4096</span> Jun <span style=color:#ae81ff>29</span> 16:21 .
+drwxrws-wt <span style=color:#ae81ff>54538</span> root     root <span style=color:#ae81ff>1925120</span> Jun <span style=color:#ae81ff>29</span> 16:21 ..
+-rw-r-----     <span style=color:#ae81ff>1</span> bandit12 root    <span style=color:#ae81ff>2581</span> Jun <span style=color:#ae81ff>29</span> 16:04 data.txt
+-rw-r--r--     <span style=color:#ae81ff>1</span> bandit12 root   <span style=color:#ae81ff>20480</span> Jun <span style=color:#ae81ff>29</span> 16:09 original
+</code></pre></div><p>I&rsquo;d say it worked. Let&rsquo;s <strong>file</strong> it again.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ file original 
+original: POSIX tar archive <span style=color:#f92672>(</span>GNU<span style=color:#f92672>)</span>
+</code></pre></div><p>Ohhhh that&rsquo;s a new one. Let&rsquo;s check the <strong>man tar</strong> page. To be honest i never know how to use <strong>tar</strong> and <strong>tar</strong> is really powerful (a smart way to say that it has way too many flags and information to read the man page), so let&rsquo;s ask google. I came across <a href=https://www.cyberciti.biz/faq/tar-extract-linux/>this</a>, it&rsquo;s way easier than the <strong>man</strong> page (be smart).</p><p>Let&rsquo;s decompress it then.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ tar -xvf original
+data5.bin
+</code></pre></div><p>That must mean it worked.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ ls -la
+total <span style=color:#ae81ff>1924</span>
+drwxr-sr-x     <span style=color:#ae81ff>2</span> bandit12 root    <span style=color:#ae81ff>4096</span> Jun <span style=color:#ae81ff>29</span> 16:26 .
+drwxrws-wt <span style=color:#ae81ff>54542</span> root     root <span style=color:#ae81ff>1925120</span> Jun <span style=color:#ae81ff>29</span> 16:26 ..
+-rw-r--r--     <span style=color:#ae81ff>1</span> bandit12 root   <span style=color:#ae81ff>10240</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> data5.bin
+-rw-r-----     <span style=color:#ae81ff>1</span> bandit12 root    <span style=color:#ae81ff>2581</span> Jun <span style=color:#ae81ff>29</span> 16:04 data.txt
+-rw-r--r--     <span style=color:#ae81ff>1</span> bandit12 root   <span style=color:#ae81ff>20480</span> Jun <span style=color:#ae81ff>29</span> 16:09 original
+</code></pre></div><p>Ok now we have a data5.bin file. Let&rsquo;s <strong>file</strong> it. This is starting to get BORING, but we must persist.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ file data5.bin 
+data5.bin: POSIX tar archive <span style=color:#f92672>(</span>GNU<span style=color:#f92672>)</span>
+</code></pre></div><p>We got <strong>tar</strong> again. Decompress it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ tar -xvf data5.bin
+data6.bin
+</code></pre></div><p>By now you should know the steps&mldr;</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ file data6.bin 
+data6.bin: bzip2 compressed data, block size <span style=color:#f92672>=</span> 900k
+</code></pre></div><p>Good old <strong>bzip2</strong>. Don&rsquo;t stop now, it will be over soon&mldr;</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ bzip2 -d data6.bin
+bzip2: Can<span style=color:#960050;background-color:#1e0010>&#39;</span>t guess original name <span style=color:#66d9ef>for</span> data6.bin -- using data6.bin.out
+</code></pre></div><p>The names are starting to get kind of awful, if you want you can change it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ file data6.bin.out 
+data6.bin.out: POSIX tar archive <span style=color:#f92672>(</span>GNU<span style=color:#f92672>)</span>
+</code></pre></div><p>We got <strong>tar</strong> again.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ tar -xvf data6.bin.out
+data8.bin
+</code></pre></div><p><strong>file</strong> it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ file data8.bin 
+data8.bin: gzip compressed data, was <span style=color:#e6db74>&#34;data9.bin&#34;</span>, last modified: Tue Oct <span style=color:#ae81ff>16</span> 12:00:23 2018, max compression, from Unix
+</code></pre></div><p>OH MY GOD!! JUST MAKE IT STOP!!! Oh and don&rsquo;t forget <strong>gzip</strong> is the tricky one with the file extension (you&rsquo;re welcome).</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ mv data8.bin data8.gz
+bandit12@bandit:/tmp/dirforfiles$ gzip -d data8.gz 
+bandit12@bandit:/tmp/dirforfiles$ 
+</code></pre></div><p>It worked. Let&rsquo;s see what we have in the folder.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ ls -la
+total <span style=color:#ae81ff>1940</span>
+drwxr-sr-x     <span style=color:#ae81ff>2</span> bandit12 root    <span style=color:#ae81ff>4096</span> Jun <span style=color:#ae81ff>29</span> 16:33 .
+drwxrws-wt <span style=color:#ae81ff>54547</span> root     root <span style=color:#ae81ff>1925120</span> Jun <span style=color:#ae81ff>29</span> 16:34 ..
+-rw-r--r--     <span style=color:#ae81ff>1</span> bandit12 root   <span style=color:#ae81ff>10240</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> data5.bin
+-rw-r--r--     <span style=color:#ae81ff>1</span> bandit12 root   <span style=color:#ae81ff>10240</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> data6.bin.out
+-rw-r--r--     <span style=color:#ae81ff>1</span> bandit12 root      <span style=color:#ae81ff>49</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> data8
+-rw-r-----     <span style=color:#ae81ff>1</span> bandit12 root    <span style=color:#ae81ff>2581</span> Jun <span style=color:#ae81ff>29</span> 16:04 data.txt
+-rw-r--r--     <span style=color:#ae81ff>1</span> bandit12 root   <span style=color:#ae81ff>20480</span> Jun <span style=color:#ae81ff>29</span> 16:09 original
+</code></pre></div><p>If you&rsquo;re not sure what is what by now i can&rsquo;t blame you, but we know that the ones with <code>.bin</code> and <code>.bin.out</code> are intermediate files. The one we want is <code>data8</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ file data8
+data8: ASCII text
+</code></pre></div><p>Finally! This is probably the original file.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit12@bandit:/tmp/dirforfiles$ cat data8
+The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+</code></pre></div><p>It&rsquo;s over. I need a break&mldr;</p><h2 id=level-14>Level 14</h2><p>So new level, new challenge. The password is stored in a file but can only be read by the <strong>bandit14</strong> (we are <strong>bandit13</strong>). They give us a SSH key to login to next level though. If whe check the <strong>man</strong> page we learn that we can use the <code>-i</code> flag to use a private key to login. Let&rsquo;s try it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit13@bandit:~$ ssh -i sshkey.private bandit14@localhost
+<span style=color:#f92672>(</span>...connection established text...<span style=color:#f92672>)</span>
+bandit14@bandit:~$ 
+</code></pre></div><p>Ok we got a prompt as <strong>bandit14</strong>. Have in mind that you&rsquo;re 2 levels deep in ssh connections. Now we can <strong>cat</strong> the password file mentioned previously.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
+4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+</code></pre></div><p>Onto the next one.</p><h2 id=level-15>Level 15</h2><p>We can get the password for the next user if we submit the current one to port <strong>30000</strong>. We can use <strong>nc</strong> (netcat) to make simple TCP and UDP connections let&rsquo;s try it. <strong>nc</strong> takes a <strong>host</strong> and a <strong>port</strong> to connect to. Let&rsquo;s try it then.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit14@bandit:~$ nc localhost <span style=color:#ae81ff>30000</span>
+</code></pre></div><p>Ok now we can write the password.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit14@bandit:~$ nc localhost <span style=color:#ae81ff>30000</span>
+4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+Correct!
+BfMYroe26WYalil77FoDi9qh59eK5xNr
+</code></pre></div><p>Next please.</p><h2 id=level-16>Level 16</h2><p>This challenge has a few important notes so i&rsquo;ll just paste it here</p><blockquote><p>The password for the next level can be retrieved by submitting the password of the current level to port <strong>30001</strong> on localhost using <strong>SSL encryption</strong>.</p></blockquote><blockquote><p>Helpful note: Getting “HEARTBEATING” and “Read R BLOCK”? Use -ign_eof and read the “CONNECTED COMMANDS” section in the manpage. Next to ‘R’ and ‘Q’, the ‘B’ command also works in this version of that command…</p></blockquote><p>So we have a suggested command named openssl and our port is using ssl encryption. Let&rsquo;s check the <strong>man</strong> page.</p><p>In the <strong>man</strong> page there is a field named <strong>s_client</strong> which says that implements a generic SSL/TLS client. That should do it. Let&rsquo;s check the <strong>man s_client</strong> page. Ok we can use the <code>-connect</code> flag to insert the address and the port. Let&rsquo;s do it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit15@bandit:~$ openssl s_client -connect localhost:30001
+<span style=color:#f92672>(</span>...bunch of information...<span style=color:#f92672>)</span>
+
+</code></pre></div><p>Now we can type our current password to get the new one.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit15@bandit:~$ openssl s_client -connect localhost:30001
+<span style=color:#f92672>(</span>...bunch of information...<span style=color:#f92672>)</span>
+BfMYroe26WYalil77FoDi9qh59eK5xNr
+Correct!
+cluFn7wTiGryunymYOu4RcffSxQluehd
+
+closed
+</code></pre></div><p>Ok we got it. Next one.</p><h2 id=level-17>Level 17</h2><p>Now they give us a range of ports to which we have to submit the current password. Let&rsquo;s not bruteforce it. We can use <strong>nmap</strong> to give us some information on the ports. Check the <strong>man</strong> page. We can use the <code>-p</code> flag to scan port ranges.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit16@bandit:~$ nmap localhost -p31000-32000
+
+Starting Nmap 7.40 <span style=color:#f92672>(</span> https://nmap.org <span style=color:#f92672>)</span> at 2019-06-29 17:49 CEST
+Nmap scan report <span style=color:#66d9ef>for</span> localhost <span style=color:#f92672>(</span>127.0.0.1<span style=color:#f92672>)</span>
+Host is up <span style=color:#f92672>(</span>0.00021s latency<span style=color:#f92672>)</span>.
+Not shown: <span style=color:#ae81ff>999</span> closed ports
+PORT      STATE SERVICE
+31518/tcp open  unknown
+31790/tcp open  unknown
+
+Nmap <span style=color:#66d9ef>done</span>: <span style=color:#ae81ff>1</span> IP address <span style=color:#f92672>(</span><span style=color:#ae81ff>1</span> host up<span style=color:#f92672>)</span> scanned in 0.08 seconds
+</code></pre></div><p>So we have 2 ports open. Now we can do a service scan in both ports and see the results. To do a service scan we use the <code>-sV</code> flag.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit16@bandit:~$ nmap localhost -p T:31518,31790 -sV
+
+Starting Nmap 7.40 <span style=color:#f92672>(</span> https://nmap.org <span style=color:#f92672>)</span> at 2019-06-29 17:52 CEST
+Stats: 0:01:18 elapsed; <span style=color:#ae81ff>0</span> hosts completed <span style=color:#f92672>(</span><span style=color:#ae81ff>1</span> up<span style=color:#f92672>)</span>, <span style=color:#ae81ff>1</span> undergoing Service Scan
+Service scan Timing: About 50.00% <span style=color:#66d9ef>done</span>; ETC: 17:54 <span style=color:#f92672>(</span>0:01:18 remaining<span style=color:#f92672>)</span>
+Stats: 0:01:23 elapsed; <span style=color:#ae81ff>0</span> hosts completed <span style=color:#f92672>(</span><span style=color:#ae81ff>1</span> up<span style=color:#f92672>)</span>, <span style=color:#ae81ff>1</span> undergoing Service Scan
+Service scan Timing: About 50.00% <span style=color:#66d9ef>done</span>; ETC: 17:54 <span style=color:#f92672>(</span>0:01:23 remaining<span style=color:#f92672>)</span>
+Nmap scan report <span style=color:#66d9ef>for</span> localhost <span style=color:#f92672>(</span>127.0.0.1<span style=color:#f92672>)</span>
+Host is up <span style=color:#f92672>(</span>0.00013s latency<span style=color:#f92672>)</span>.
+PORT      STATE SERVICE     VERSION
+31518/tcp open  ssl/echo
+31790/tcp open  ssl/unknown
+<span style=color:#ae81ff>1</span> service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port31790-TCP:V<span style=color:#f92672>=</span>7.40%T<span style=color:#f92672>=</span>SSL%I<span style=color:#f92672>=</span>7%D<span style=color:#f92672>=</span>6/29%Time<span style=color:#f92672>=</span>5D17893D%P<span style=color:#f92672>=</span>x86_64-pc-linux-g
+SF:nu%r<span style=color:#f92672>(</span>GenericLines,31,<span style=color:#e6db74>&#34;Wrong!\x20Please\x20enter\x20the\x20correct\x20cu
+</span><span style=color:#e6db74>SF:rrent\x20password\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>GetRequest,31,<span style=color:#e6db74>&#34;Wrong!\x20Please\x20enter\x20the
+</span><span style=color:#e6db74>SF:\x20correct\x20current\x20password\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>HTTPOptions,31,<span style=color:#e6db74>&#34;Wrong!\x20Plea
+</span><span style=color:#e6db74>SF:se\x20enter\x20the\x20correct\x20current\x20password\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>RTSPRequest,
+SF:31,<span style=color:#e6db74>&#34;Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x20password\
+</span><span style=color:#e6db74>SF:n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>Help,31,<span style=color:#e6db74>&#34;Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x
+</span><span style=color:#e6db74>SF:20password\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>SSLSessionReq,31,<span style=color:#e6db74>&#34;Wrong!\x20Please\x20enter\x20the\x20
+</span><span style=color:#e6db74>SF:correct\x20current\x20password\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>TLSSessionReq,31,<span style=color:#e6db74>&#34;Wrong!\x20Please
+</span><span style=color:#e6db74>SF:\x20enter\x20the\x20correct\x20current\x20password\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>Kerberos,31,<span style=color:#e6db74>&#34;W
+</span><span style=color:#e6db74>SF:rong!\x20Please\x20enter\x20the\x20correct\x20current\x20password\n&#34;</span><span style=color:#f92672>)</span>%r
+SF:<span style=color:#f92672>(</span>FourOhFourRequest,31,<span style=color:#e6db74>&#34;Wrong!\x20Please\x20enter\x20the\x20correct\x20c
+</span><span style=color:#e6db74>SF:urrent\x20password\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>LPDString,31,<span style=color:#e6db74>&#34;Wrong!\x20Please\x20enter\x20the
+</span><span style=color:#e6db74>SF:\x20correct\x20current\x20password\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>LDAPSearchReq,31,<span style=color:#e6db74>&#34;Wrong!\x20Pl
+</span><span style=color:#e6db74>SF:ease\x20enter\x20the\x20correct\x20current\x20password\n&#34;</span><span style=color:#f92672>)</span>%r<span style=color:#f92672>(</span>SIPOptions
+SF:,31,<span style=color:#e6db74>&#34;Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x20password
+</span><span style=color:#e6db74>SF:\n&#34;</span><span style=color:#f92672>)</span>;
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap <span style=color:#66d9ef>done</span>: <span style=color:#ae81ff>1</span> IP address <span style=color:#f92672>(</span><span style=color:#ae81ff>1</span> host up<span style=color:#f92672>)</span> scanned in 88.36 seconds
+</code></pre></div><p>(This scan might take a bit)</p><p>Ok so both of them speak SSL, but one of them is an <code>echo</code> service as we can see. This was an overkill since we could&rsquo;ve just tried both, but now you know how to do it properly (imagine if you had 300 ports). The port we want is <strong>31790</strong>, lets submit the password using <strong>openssl s_client</strong>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit16@bandit:~$ openssl s_client -connect localhost:31790
+<span style=color:#f92672>(</span>...bunch of ssl information...<span style=color:#f92672>)</span>
+cluFn7wTiGryunymYOu4RcffSxQluehd
+Correct!
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ
+Ja6Lzb558YW3FZl87ORiO+rW4LCDCNd2lUvLE/GL2GWyuKN0K5iCd5TbtJzEkQTu
+DSt2mcNn4rhAL+JFr56o4T6z8WWAW18BR6yGrMq7Q/kALHYW3OekePQAzL0VUYbW
+JGTi65CxbCnzc/w4+mqQyvmzpWtMAzJTzAzQxNbkR2MBGySxDLrjg0LWN6sK7wNX
+x0YVztz/zbIkPjfkU1jHS+9EbVNj+D1XFOJuaQIDAQABAoIBABagpxpM1aoLWfvD
+KHcj10nqcoBc4oE11aFYQwik7xfW+24pRNuDE6SFthOar69jp5RlLwD1NhPx3iBl
+J9nOM8OJ0VToum43UOS8YxF8WwhXriYGnc1sskbwpXOUDc9uX4+UESzH22P29ovd
+d8WErY0gPxun8pbJLmxkAtWNhpMvfe0050vk9TL5wqbu9AlbssgTcCXkMQnPw9nC
+YNN6DDP2lbcBrvgT9YCNL6C+ZKufD52yOQ9qOkwFTEQpjtF4uNtJom+asvlpmS8A
+vLY9r60wYSvmZhNqBUrj7lyCtXMIu1kkd4w7F77k+DjHoAXyxcUp1DGL51sOmama
++TOWWgECgYEA8JtPxP0GRJ+IQkX262jM3dEIkza8ky5moIwUqYdsx0NxHgRRhORT
+8c8hAuRBb2G82so8vUHk/fur85OEfc9TncnCY2crpoqsghifKLxrLgtT+qDpfZnx
+SatLdt8GfQ85yA7hnWWJ2MxF3NaeSDm75Lsm+tBbAiyc9P2jGRNtMSkCgYEAypHd
+HCctNi/FwjulhttFx/rHYKhLidZDFYeiE/v45bN4yFm8x7R/b0iE7KaszX+Exdvt
+SghaTdcG0Knyw1bpJVyusavPzpaJMjdJ6tcFhVAbAjm7enCIvGCSx+X3l5SiWg0A
+R57hJglezIiVjv3aGwHwvlZvtszK6zV6oXFAu0ECgYAbjo46T4hyP5tJi93V5HDi
+Ttiek7xRVxUl+iU7rWkGAXFpMLFteQEsRr7PJ/lemmEY5eTDAFMLy9FL2m9oQWCg
+R8VdwSk8r9FGLS+9aKcV5PI/WEKlwgXinB3OhYimtiG2Cg5JCqIZFHxD6MjEGOiu
+L8ktHMPvodBwNsSBULpG0QKBgBAplTfC1HOnWiMGOU3KPwYWt0O6CdTkmJOmL8Ni
+blh9elyZ9FsGxsgtRBXRsqXuz7wtsQAgLHxbdLq/ZJQ7YfzOKU4ZxEnabvXnvWkU
+YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM
+77pBAoGAMmjmIJdjp+Ez8duyn3ieo36yrttF5NSsJLAbxFpdlc1gvtGCWW+9Cq0b
+dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3
+vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY<span style=color:#f92672>=</span>
+-----END RSA PRIVATE KEY-----
+
+closed
+</code></pre></div><p>Now we have an ssh key we can copy it to our own computer to a file and use it to connect like we did in <a href=#level-14>Level 14</a>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>myuser@myuser:~$ echo <span style=color:#e6db74>&#34;-----BEGIN RSA PRIVATE KEY-----
+</span><span style=color:#e6db74>MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+</span><span style=color:#e6db74>imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ
+</span><span style=color:#e6db74>Ja6Lzb558YW3FZl87ORiO+rW4LCDCNd2lUvLE/GL2GWyuKN0K5iCd5TbtJzEkQTu
+</span><span style=color:#e6db74>DSt2mcNn4rhAL+JFr56o4T6z8WWAW18BR6yGrMq7Q/kALHYW3OekePQAzL0VUYbW
+</span><span style=color:#e6db74>JGTi65CxbCnzc/w4+mqQyvmzpWtMAzJTzAzQxNbkR2MBGySxDLrjg0LWN6sK7wNX
+</span><span style=color:#e6db74>x0YVztz/zbIkPjfkU1jHS+9EbVNj+D1XFOJuaQIDAQABAoIBABagpxpM1aoLWfvD
+</span><span style=color:#e6db74>KHcj10nqcoBc4oE11aFYQwik7xfW+24pRNuDE6SFthOar69jp5RlLwD1NhPx3iBl
+</span><span style=color:#e6db74>J9nOM8OJ0VToum43UOS8YxF8WwhXriYGnc1sskbwpXOUDc9uX4+UESzH22P29ovd
+</span><span style=color:#e6db74>d8WErY0gPxun8pbJLmxkAtWNhpMvfe0050vk9TL5wqbu9AlbssgTcCXkMQnPw9nC
+</span><span style=color:#e6db74>YNN6DDP2lbcBrvgT9YCNL6C+ZKufD52yOQ9qOkwFTEQpjtF4uNtJom+asvlpmS8A
+</span><span style=color:#e6db74>vLY9r60wYSvmZhNqBUrj7lyCtXMIu1kkd4w7F77k+DjHoAXyxcUp1DGL51sOmama
+</span><span style=color:#e6db74>+TOWWgECgYEA8JtPxP0GRJ+IQkX262jM3dEIkza8ky5moIwUqYdsx0NxHgRRhORT
+</span><span style=color:#e6db74>8c8hAuRBb2G82so8vUHk/fur85OEfc9TncnCY2crpoqsghifKLxrLgtT+qDpfZnx
+</span><span style=color:#e6db74>SatLdt8GfQ85yA7hnWWJ2MxF3NaeSDm75Lsm+tBbAiyc9P2jGRNtMSkCgYEAypHd
+</span><span style=color:#e6db74>HCctNi/FwjulhttFx/rHYKhLidZDFYeiE/v45bN4yFm8x7R/b0iE7KaszX+Exdvt
+</span><span style=color:#e6db74>SghaTdcG0Knyw1bpJVyusavPzpaJMjdJ6tcFhVAbAjm7enCIvGCSx+X3l5SiWg0A
+</span><span style=color:#e6db74>R57hJglezIiVjv3aGwHwvlZvtszK6zV6oXFAu0ECgYAbjo46T4hyP5tJi93V5HDi
+</span><span style=color:#e6db74>Ttiek7xRVxUl+iU7rWkGAXFpMLFteQEsRr7PJ/lemmEY5eTDAFMLy9FL2m9oQWCg
+</span><span style=color:#e6db74>R8VdwSk8r9FGLS+9aKcV5PI/WEKlwgXinB3OhYimtiG2Cg5JCqIZFHxD6MjEGOiu
+</span><span style=color:#e6db74>L8ktHMPvodBwNsSBULpG0QKBgBAplTfC1HOnWiMGOU3KPwYWt0O6CdTkmJOmL8Ni
+</span><span style=color:#e6db74>blh9elyZ9FsGxsgtRBXRsqXuz7wtsQAgLHxbdLq/ZJQ7YfzOKU4ZxEnabvXnvWkU
+</span><span style=color:#e6db74>YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM
+</span><span style=color:#e6db74>77pBAoGAMmjmIJdjp+Ez8duyn3ieo36yrttF5NSsJLAbxFpdlc1gvtGCWW+9Cq0b
+</span><span style=color:#e6db74>dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3
+</span><span style=color:#e6db74>vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
+</span><span style=color:#e6db74>-----END RSA PRIVATE KEY-----&#34;</span> &gt; level17_priv
+
+myuser@myuser:~$ ssh bandit17@bandit.labs.overthewire.org -p <span style=color:#ae81ff>2220</span> -i level17_priv
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions <span style=color:#ae81ff>0664</span> <span style=color:#66d9ef>for</span> <span style=color:#e6db74>&#39;level17_priv&#39;</span> are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+Load key <span style=color:#e6db74>&#34;level17_priv&#34;</span>: bad permissions
+bandit17@bandit.labs.overthewire.org<span style=color:#960050;background-color:#1e0010>&#39;</span>s password:
+</code></pre></div><p>Hmmm&mldr; It makes sense we shouldn&rsquo;t just have a private key laying around unprotected let&rsquo;s change its permissions (you can google how permissions in linux work).</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>myuser@myuser:~$ sudo chmod <span style=color:#ae81ff>600</span> level17_priv
+myuser@myuser:~$ ssh bandit17@bandit.labs.overthewire.org -p <span style=color:#ae81ff>2220</span> -i level17_priv
+<span style=color:#f92672>(</span>...connection established info...<span style=color:#f92672>)</span>
+bandit17@bandit:~$ 
+</code></pre></div><p>Success! Just in case we should go get this level&rsquo;s password so we don&rsquo;t need the private key to login. The passwords are located in <code>/etc/bandit_pass/</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit17@bandit:~$ cat /etc/bandit_pass/bandit17
+xLYVMN9WE5zQ5vHacb0sZEVqbrp7nBTn
+</code></pre></div><p>Now we can go to the next one.</p><h2 id=level-18>Level 18</h2><p>So now the password for the next level is the only line different between <strong>passwords.old</strong> and <strong>passwords.new</strong>. Let&rsquo;s check the <strong>diff</strong> command.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>NAME
+       diff - compare files line by line
+</code></pre></div><p>This should do it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit17@bandit:~$ diff passwords.old passwords.new 
+42c42
+&lt; hlbSBPAWJmL6WFDb06gpTx1pPButblOA
+---
+&gt; kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+</code></pre></div><p>So our password should be the one on the bottom since that&rsquo;s the new one. Next one.</p><h2 id=level-19>Level 19</h2><p>Now the problem is that once we login we are automatically kicked out</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>myuser@myuser:~$ ssh bandit18@bandit.labs.overthewire.org -p <span style=color:#ae81ff>2220</span>
+<span style=color:#f92672>(</span>...connection established info...<span style=color:#f92672>)</span>
+Byebye !
+Connection to bandit.labs.overthewire.org closed.
+myuser@myuser:~$ 
+</code></pre></div><p>Hm&mldr; Ok, so what about if we try to run a command through ssh. Instead of opening a connection and get a prompt, just run a command. Well let&rsquo;s check the <strong>man ssh</strong> command</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>SYNOPSIS
+     ssh <span style=color:#f92672>[</span>-46AaCfGgKkMNnqsTtVvXxYy<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-B bind_interface<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-b bind_address<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-c cipher_spec<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-D <span style=color:#f92672>[</span>bind_address:<span style=color:#f92672>]</span>port<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-E log_file<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-e escape_char<span style=color:#f92672>]</span>
+         <span style=color:#f92672>[</span>-F configfile<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-I pkcs11<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-i identity_file<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-J destination<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-L address<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-l login_name<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-m mac_spec<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-O ctl_cmd<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-o option<span style=color:#f92672>]</span>
+         <span style=color:#f92672>[</span>-p port<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-Q query_option<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-R address<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-S ctl_path<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-W host:port<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>-w local_tun<span style=color:#f92672>[</span>:remote_tun<span style=color:#f92672>]]</span> destination <span style=color:#f92672>[</span>command<span style=color:#f92672>]</span>
+</code></pre></div><p>Well as we can see the last argument of the command is a command so let&rsquo;s try it</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>myuser@myuser:~$ ssh bandit18@bandit.labs.overthewire.org -p <span style=color:#ae81ff>2220</span> <span style=color:#e6db74>&#39;cat readme&#39;</span>
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+bandit18@bandit.labs.overthewire.org<span style=color:#960050;background-color:#1e0010>&#39;</span>s password: 
+IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+myuser@myuser:~$ 
+</code></pre></div><p>So we got kicked out but we were still able to run the command which gave us the password. NICE! Next one.</p><h2 id=level-20>Level 20</h2><p>Let&rsquo;s check the challenge description:</p><blockquote><p>To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), asetuidfter you have used the setuid binary.</p></blockquote><p>Let&rsquo;s execute it without arguments then.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit19@bandit:~$ ./bandit20-do 
+Run a command as another user.
+  Example: ./bandit20-do id
+</code></pre></div><p>We can see which user we are currently running the command by running <strong>whoami</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit19@bandit:~$ whoami
+bandit19
+bandit19@bandit:~$ ./bandit20-do whoami
+bandit20
+</code></pre></div><p>So this runs a command as <strong>bandit20</strong>. It should immediately pop to your mind the idea of just using <strong>cat</strong> to print the password as the next user.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+</code></pre></div><p>So we ran <strong>cat</strong> as <strong>bandit20</strong> and gave it the file we wanted to print as an argument. This should be easy by now.</p><h2 id=level-21>Level 21</h2><p>This challenge is really well detailed in the description so i&rsquo;ll just paste it here</p><blockquote><p>There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).</p></blockquote><p>So we need to run a server on a port that sends the password everytime someone connects to it. So we will need 2 terminals running because the server will hold on to one of them. We can use <strong>screen</strong>. We just need to execute <strong>screen</strong> which will get us into another empty terminal. To detach the current screen just hit <strong>Ctrl+a d</strong>. Then to resume just execute <strong>screen -r</strong> (RTFM on this one). We will also put a job into background by hitting <strong>Ctrl+z</strong> and then running <strong>fg</strong> to bring it to the foreground.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit20@bandit:~$ screen
+<span style=color:#f92672>(</span>...enters a new screen session...<span style=color:#f92672>)</span>
+bandit20@bandit:~$ nc -l -p <span style=color:#ae81ff>30005</span>
+<span style=color:#f92672>(</span>...listening...<span style=color:#f92672>)</span>
+</code></pre></div><p>Now we detach the screen session and run <code>./suconnection 30005</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit20@bandit:~$ ./suconnect <span style=color:#ae81ff>30005</span>
+<span style=color:#f92672>(</span>...waiting...<span style=color:#f92672>)</span>
+</code></pre></div><p>Let&rsquo;s go back to our netcat server and send the old password. Hit <strong>Ctrl+z</strong> to send <code>suconnect</code> to the background and then run <strong>screen -r</strong> to resume the screen session.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit20@bandit:~$ nc -l -p <span style=color:#ae81ff>30005</span>
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+<span style=color:#f92672>(</span>...waiting...<span style=color:#f92672>)</span>
+</code></pre></div><p>Ok now finally let&rsquo;s resume our <code>suconnect</code> by exiting screen and running <strong>fg</strong>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit20@bandit:~$ fg
+./suconnect <span style=color:#ae81ff>30005</span>
+Read: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+Password matches, sending next password
+bandit20@bandit:~$ 
+</code></pre></div><p>It worked!! Now we just need to go back to the netcat server to get the password received.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit20@bandit:~$ screen -r
+<span style=color:#f92672>(</span>...switched to screen session...<span style=color:#f92672>)</span>
+bandit20@bandit:~$ nc -l -p <span style=color:#ae81ff>30005</span>
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+bandit20@bandit:~$ 
+</code></pre></div><p>There we go. DONE! This was interesting! Next one.</p><h2 id=level-22>Level 22</h2><p>A program is running periodically using <strong>cron</strong>. Let&rsquo;s look into <code>/etc/cron.d/</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit21@bandit:~$ ls -la /etc/cron.d
+total <span style=color:#ae81ff>24</span>
+drwxr-xr-x  <span style=color:#ae81ff>2</span> root root <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> .
+drwxr-xr-x <span style=color:#ae81ff>88</span> root root <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> ..
+-rw-r--r--  <span style=color:#ae81ff>1</span> root root  <span style=color:#ae81ff>120</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> cronjob_bandit22
+-rw-r--r--  <span style=color:#ae81ff>1</span> root root  <span style=color:#ae81ff>122</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> cronjob_bandit23
+-rw-r--r--  <span style=color:#ae81ff>1</span> root root  <span style=color:#ae81ff>120</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> cronjob_bandit24
+-rw-r--r--  <span style=color:#ae81ff>1</span> root root  <span style=color:#ae81ff>102</span> Oct  <span style=color:#ae81ff>7</span>  <span style=color:#ae81ff>2017</span> .placeholder
+</code></pre></div><p>The one that interests us for now is <code>cronjob_bandit22</code>. <strong>cat</strong> it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit21@bandit:~$ cd /etc/cron.d
+bandit21@bandit:/etc/cron.d$ cat cronjob_bandit22
+@reboot bandit22 /usr/bin/cronjob_bandit22.sh &amp;&gt; /dev/null
+* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &amp;&gt; /dev/null
+</code></pre></div><p>So we may not understand this fully, but let&rsquo;s check that file&rsquo;s content.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit21@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit22.sh 
+<span style=color:#75715e>#!/bin/bash</span>
+chmod <span style=color:#ae81ff>644</span> /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 &gt; /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+</code></pre></div><p>Ok this we can understand. So it&rsquo;s printing out the password for the next level to that file. Let&rsquo;s see if we can <strong>cat</strong> that file.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit21@bandit:/etc/cron.d$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
+</code></pre></div><p>We got it! Next level.</p><h2 id=level-23>Level 23</h2><p>This one is pretty much like the previous one but it&rsquo;s a different <strong>cron</strong> job running.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit22@bandit:~$ cat /etc/cron.d/cronjob_bandit23
+@reboot bandit23 /usr/bin/cronjob_bandit23.sh  &amp;&gt; /dev/null
+* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &amp;&gt; /dev/null
+</code></pre></div><p>So the cronjob is being ran as if it was by user <strong>bandit23</strong>. Let&rsquo;s analyze the file mentioned in here.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit22@bandit:~$ cat /usr/bin/cronjob_bandit23.sh 
+<span style=color:#75715e>#!/bin/bash</span>
+
+myname<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>whoami<span style=color:#66d9ef>)</span>
+mytarget<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>echo I am user $myname | md5sum | cut -d <span style=color:#e6db74>&#39; &#39;</span> -f 1<span style=color:#66d9ef>)</span>
+
+echo <span style=color:#e6db74>&#34;Copying passwordfile /etc/bandit_pass/</span>$myname<span style=color:#e6db74> to /tmp/</span>$mytarget<span style=color:#e6db74>&#34;</span>
+
+cat /etc/bandit_pass/$myname &gt; /tmp/$mytarget
+</code></pre></div><p>So it prints the password to a directory whose name is generated by the command after <code>mytarget</code>. If we execute the command it should give us the name. We just have to replace <code>$myname</code> with <strong>bandit22</strong>, since that would be the output of running <strong>whoami</strong> as we&rsquo;ve mentioned previously.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit22@bandit:~$ echo I am user bandit23 | md5sum | cut -d <span style=color:#e6db74>&#39; &#39;</span> -f <span style=color:#ae81ff>1</span>
+8ca319486bfbbc3663ea0fbe81326349
+</code></pre></div><p>Now if we <strong>cat</strong> this file we should get the password.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit22@bandit:~$ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+</code></pre></div><p>Done. Onto the next one.</p><h2 id=level-24>Level 24</h2><p>Let&rsquo;s see this challenge description since they have a few importante notes:</p><blockquote><p>A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.</p></blockquote><blockquote><p>NOTE: This level requires you to create your own first shell-script. This is a very big step and you should be proud of yourself when you beat this level!</p></blockquote><blockquote><p>NOTE 2: Keep in mind that your shell script is removed once executed, so you may want to keep a copy around…</p></blockquote><p>So let&rsquo;s first go to <code>/etc/crond.d/</code> and check this level&rsquo;s file.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit23@bandit:/etc/cron.d$ cat cronjob_bandit24
+@reboot bandit24 /usr/bin/cronjob_bandit24.sh &amp;&gt; /dev/null
+* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &amp;&gt; /dev/null
+</code></pre></div><p><strong>cat</strong> the file mentioned in here</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit23@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit24.sh
+<span style=color:#75715e>#!/bin/bash</span>
+
+myname<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>whoami<span style=color:#66d9ef>)</span>
+
+cd /var/spool/$myname
+echo <span style=color:#e6db74>&#34;Executing and deleting all scripts in /var/spool/</span>$myname<span style=color:#e6db74>:&#34;</span>
+<span style=color:#66d9ef>for</span> i in * .*;
+<span style=color:#66d9ef>do</span>
+    <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$i<span style=color:#e6db74>&#34;</span> !<span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;.&#34;</span> -a <span style=color:#e6db74>&#34;</span>$i<span style=color:#e6db74>&#34;</span> !<span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;..&#34;</span> <span style=color:#f92672>]</span>;
+    <span style=color:#66d9ef>then</span>
+        echo <span style=color:#e6db74>&#34;Handling </span>$i<span style=color:#e6db74>&#34;</span>
+        timeout -s <span style=color:#ae81ff>9</span> <span style=color:#ae81ff>60</span> ./$i
+        rm -f ./$i
+    <span style=color:#66d9ef>fi</span>
+<span style=color:#66d9ef>done</span>
+</code></pre></div><p>Once again this <strong>cron</strong> job is being ran as another user in this case <strong>bandit24</strong>. So <code>myname</code> will contain <code>bandit24</code>, leading us to the <code>/var/spool/bandit24</code> directory. The message printed by <strong>echo</strong> tells us that it will execute and delete all scripts in here, so our idea would be to create a script that will <strong>cat</strong> the password file into another file that we create. This very simple to write in a <strong>bash</strong> script, let&rsquo;s do it</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
+</span><span style=color:#75715e></span>
+mkdir /tmp/dirforcron
+cat /etc/bandit_pass/bandit24 &gt; /tmp/dirforcron/pass
+chmod <span style=color:#ae81ff>777</span> /tmp/dirforcron/pass
+</code></pre></div><p>We will create this file in <code>/tmp/dirfortest/</code> and name it <code>script.sh</code>.
+So what this do is creating a new directory to work in, cat the password file into a file in that directory and then changing the permissions to make it accessible to everyone. Now when we put this file in <code>/var/spool/bandit24</code> we have to be sure that the user who will run it has enough permissions to do so. We can do this by doing</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit23@bandit:/var/spool/bandit24$ chmod <span style=color:#ae81ff>777</span> /tmp/dirfortest/script.sh
+</code></pre></div><p>Now that we gave it all the permissions possible we just need to copy it to <code>/var/spool/bandit24</code> and wait for it to be ran.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit23@bandit:/var/spool/bandit24$ cat /tmp/dirforcron/pass
+cat: /tmp/dirforcron/pass: No such file or directory
+bandit23@bandit:/var/spool/bandit24$ cat /tmp/dirforcron/pass
+UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+</code></pre></div><p>Success!!! Let&rsquo;s go onto the next one.</p><h2 id=level-25>Level 25</h2><blockquote><p>A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.</p></blockquote><p>First let&rsquo;s try to connect and see what it prints. We will use netcat to connect as before.</p><pre><code>bandit24@bandit:~$ nc localhost 30002
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+(...jibberish...)
+Wrong! Please enter the correct current password. Try again.
+^C
+</code></pre><p>So it expects the password and the pin code in a line separated by a space. You can use your preferred scripting language to try and bruteforce this. I&rsquo;ll use bash since it doesn&rsquo;t depend on anything being preinstalled in the system (besides bash of course).</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
+</span><span style=color:#75715e></span>rm input1.txt
+rm input2.txt
+rm output.txt
+
+touch output.txt
+touch input.txt
+<span style=color:#66d9ef>for</span> i in <span style=color:#f92672>{</span>0000..5000<span style=color:#f92672>}</span>
+<span style=color:#66d9ef>do</span>
+        echo <span style=color:#e6db74>&#34;UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ </span>$i<span style=color:#e6db74>&#34;</span> &gt;&gt; input1.txt
+<span style=color:#66d9ef>done</span>
+
+<span style=color:#66d9ef>for</span> i in <span style=color:#f92672>{</span>5001..9999<span style=color:#f92672>}</span>
+<span style=color:#66d9ef>do</span>
+        echo <span style=color:#e6db74>&#34;UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ </span>$i<span style=color:#e6db74>&#34;</span> &gt;&gt; input2.txt
+<span style=color:#66d9ef>done</span>
+
+echo <span style=color:#e6db74>&#34;input created will start nc connection&#34;</span>
+
+cat input1.txt | nc localhost <span style=color:#ae81ff>30002</span> &gt;&gt; output.txt
+cat input2.txt | nc localhost <span style=color:#ae81ff>30002</span> &gt;&gt; output.txt
+
+cat output.txt | grep -v Wrong
+</code></pre></div><p>So what this does is it creates 2 input files with all the combinations. I do this because when i tried to do it all in once the connection tended to timeout. After creating the input i pipe it to a <strong>nc</strong> connection and write the result to a file. Finally, i pipe the content of the file to <strong>grep</strong> (the <code>-v</code> flag is to do invert macthing, so the lines that don&rsquo;t contain &ldquo;Wrong&rdquo;) and the correct answer should be there.</p><pre><code>bandit24@bandit:/tmp/testbash$ bash script.sh 
+rm: cannot remove 'input1.txt': No such file or directory
+rm: cannot remove 'input2.txt': No such file or directory
+input created will start nc connection
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+Timeout. Exiting.
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+Correct!
+The password of user bandit25 is uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+
+Exiting.
+</code></pre><p>Next one.</p><h2 id=level-26>Level 26</h2><p>So the challenge now says,</p><blockquote><p>Logging in to bandit26 from bandit25 should be fairly easy… The shell for user bandit26 is not /bin/bash, but something else. Find out what it is, how it works and how to break out of it.</p></blockquote><p>Let&rsquo;s inspect our current directory</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit25@bandit:~$ ls -la
+total <span style=color:#ae81ff>32</span>
+drwxr-xr-x  <span style=color:#ae81ff>2</span> root     root     <span style=color:#ae81ff>4096</span> May <span style=color:#ae81ff>26</span> 18:23 .
+drwxr-xr-x <span style=color:#ae81ff>41</span> root     root     <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> ..
+-rw-r-----  <span style=color:#ae81ff>1</span> bandit25 bandit25   <span style=color:#ae81ff>33</span> May <span style=color:#ae81ff>26</span> 18:23 .bandit24.password
+-r--------  <span style=color:#ae81ff>1</span> bandit25 bandit25 <span style=color:#ae81ff>1679</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> bandit26.sshkey
+-rw-r--r--  <span style=color:#ae81ff>1</span> root     root      <span style=color:#ae81ff>220</span> May <span style=color:#ae81ff>15</span>  <span style=color:#ae81ff>2017</span> .bash_logout
+-rw-r--r--  <span style=color:#ae81ff>1</span> root     root     <span style=color:#ae81ff>3526</span> May <span style=color:#ae81ff>15</span>  <span style=color:#ae81ff>2017</span> .bashrc
+-rw-r-----  <span style=color:#ae81ff>1</span> bandit25 bandit25    <span style=color:#ae81ff>4</span> May <span style=color:#ae81ff>26</span> 18:23 .pin
+-rw-r--r--  <span style=color:#ae81ff>1</span> root     root      <span style=color:#ae81ff>675</span> May <span style=color:#ae81ff>15</span>  <span style=color:#ae81ff>2017</span> .profile
+</code></pre></div><p>So we have a ssh key which i assume will be enough to log us in. Let&rsquo;s try it. I downloaded the key to my personal machine, <strong>set the right permissions</strong> and then tried to login.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>myuser@myuser:~$ ssh bandit26@bandit.labs.overthewire.org -p <span style=color:#ae81ff>2220</span> -i ~/Desktop/bandit26.sshkey
+<span style=color:#f92672>(</span>...connection established...<span style=color:#f92672>)</span>
+Connection to bandit.labs.overthewire.org closed.
+myuser@myuser:~$
+</code></pre></div><p>Hmmm&mldr; So it closed the connection immediately. Let&rsquo;s try to run a command through <strong>ssh</strong> instead of establishing the connection (like in <a href=#level-19>level 19</a>), more specifically, try to understand what shell user <strong>bandit26</strong> is running. We can do this by checking the content of the <code>$SHELL</code> variable.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>myuser@myuser:~$ ssh bandit26@bandit.labs.overthewire.org -p <span style=color:#ae81ff>2220</span> -i ~/Desktop/bandit26.sshkey <span style=color:#e6db74>&#39;echo $SHELL&#39;</span>
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+<span style=color:#f92672>(</span>...hangs...<span style=color:#f92672>)</span>
+^C
+myuser@myuser:~$
+</code></pre></div><p>Well that didn&rsquo;t work. The connection just hanged. Let&rsquo;s go back to <strong>bandit25</strong> and check the content of the <code>/etc/passwd</code> file, since this stores information of the system users.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit25@bandit:~$ cat /etc/passwd
+<span style=color:#f92672>(</span>...other users...<span style=color:#f92672>)</span>
+bandit25:x:11025:11025:bandit level 25:/home/bandit25:/bin/bash
+bandit26:x:11026:11026:bandit level 26:/home/bandit26:/usr/bin/showtext
+bandit27:x:11027:11027:bandit level 27:/home/bandit27:/bin/bash
+<span style=color:#f92672>(</span>...other users...<span style=color:#f92672>)</span>
+</code></pre></div><p>OK we got something. So <strong>bandit26</strong> is running <code>/usr/bin/showtext</code> as its default shell. Let&rsquo;s investigate that file.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit25@bandit:~$ cat /usr/bin/showtext
+<span style=color:#75715e>#!/bin/sh</span>
+
+export TERM<span style=color:#f92672>=</span>linux
+
+more ~/text.txt
+exit <span style=color:#ae81ff>0</span>
+</code></pre></div><p>So what this does is pretty much use <code>more</code> on file. <code>more</code> works like <code>less</code> which in sum are commands that help you viewing a file&rsquo;s content that doesn&rsquo;t fit on screen. So let&rsquo;s do that, make the terminal as tiny as we can.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>--More--<span style=color:#f92672>(</span>16%<span style=color:#f92672>)</span>
+</code></pre></div><p>Ok so we got <code>more</code> running. Now i have no idea what to do. Let&rsquo;s check the <strong>man more</strong> page.
+So from there we can see that there is an option that opens <code>vim</code> at the current line (vim is a terminal text editor).</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>| |                   | <span style=color:#f92672>(</span>_<span style=color:#f92672>)</span> | |__ <span style=color:#ae81ff>\ </span>/ /
+ | |__   __ _ _ __   __| |_| |_   <span style=color:#f92672>)</span> / /_
+ | <span style=color:#e6db74>&#39;_ \ / _` | &#39;</span>_ <span style=color:#ae81ff>\ </span>/ _<span style=color:#e6db74>`</span> | | __| / / <span style=color:#960050;background-color:#1e0010>&#39;</span>_ <span style=color:#ae81ff>\
+</span><span style=color:#ae81ff></span> | |_<span style=color:#f92672>)</span> | <span style=color:#f92672>(</span>_| | | | | <span style=color:#f92672>(</span>_| | | |_ / /| <span style=color:#f92672>(</span>_<span style=color:#f92672>)</span> |
+ |_.__/ <span style=color:#ae81ff>\_</span>_,_|_| |_|<span style=color:#ae81ff>\_</span>_,_|_|<span style=color:#ae81ff>\_</span>_|____<span style=color:#ae81ff>\_</span>__/
+~                                                                                      
+~                                                                                      
+</code></pre></div><p>Now we have it opened in <code>vim</code> as user <strong>bandit26</strong>. From vim we can get a shell via the <code>:shell</code> command. To do that just hit <strong>Esc</strong> and then type <code>:shell</code></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>  _                     _ _ _   ___   __
+ | |                   | <span style=color:#f92672>(</span>_<span style=color:#f92672>)</span> | |__ <span style=color:#ae81ff>\ </span>/ /
+:shell
+</code></pre></div><p>Now hit enter.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>  _                     _ _ _   ___   __  
+ | |                   | <span style=color:#f92672>(</span>_<span style=color:#f92672>)</span> | |__ <span style=color:#ae81ff>\ </span>/ /  
+--More--<span style=color:#f92672>(</span>33%<span style=color:#f92672>)</span>
+</code></pre></div><p>Wait&mldr; What? So that got us back to <code>more</code>&mldr; Oh right the shell was set to run <code>more</code> so we just need to change the <code>:shell</code> command in <code>vim</code>. We can do this by typing in command mode <code>:set shell=/bin/bash</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash> |_.__/ <span style=color:#ae81ff>\_</span>_,_|_| |_|<span style=color:#ae81ff>\_</span>_,_|_|<span style=color:#ae81ff>\_</span>_|____<span style=color:#ae81ff>\_</span>__/
+~                                                                                      
+:set shell<span style=color:#f92672>=</span>/bin/bash
+</code></pre></div><p>And now run the <code>:shell</code> command.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit26@bandit:~$ 
+</code></pre></div><p>WE GOT A SHELL!!! Next challenge then.</p><h2 id=level-27>Level 27</h2><p>We will be using the shell established from the previous level. Let&rsquo;s check the current directory.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit26@bandit:~$ ls -la
+total <span style=color:#ae81ff>36</span>
+drwxr-xr-x  <span style=color:#ae81ff>3</span> root     root     <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> .
+drwxr-xr-x <span style=color:#ae81ff>41</span> root     root     <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> ..
+-rwsr-x---  <span style=color:#ae81ff>1</span> bandit27 bandit26 <span style=color:#ae81ff>7296</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> bandit27-do
+-rw-r--r--  <span style=color:#ae81ff>1</span> root     root      <span style=color:#ae81ff>220</span> May <span style=color:#ae81ff>15</span>  <span style=color:#ae81ff>2017</span> .bash_logout
+-rw-r--r--  <span style=color:#ae81ff>1</span> root     root     <span style=color:#ae81ff>3526</span> May <span style=color:#ae81ff>15</span>  <span style=color:#ae81ff>2017</span> .bashrc
+-rw-r--r--  <span style=color:#ae81ff>1</span> root     root      <span style=color:#ae81ff>675</span> May <span style=color:#ae81ff>15</span>  <span style=color:#ae81ff>2017</span> .profile
+drwxr-xr-x  <span style=color:#ae81ff>2</span> root     root     <span style=color:#ae81ff>4096</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> .ssh
+-rw-r-----  <span style=color:#ae81ff>1</span> bandit26 bandit26  <span style=color:#ae81ff>258</span> Oct <span style=color:#ae81ff>16</span>  <span style=color:#ae81ff>2018</span> text.txt
+</code></pre></div><p>This brings us back to <a href=#level-20>level 20</a> where we had a setuid binary. This is easy then, let&rsquo;s just <strong>cat</strong> the password file.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit26@bandit:~$ ./bandit27-do cat /etc/bandit_pass/bandit27
+3ba3118a22e93127a4ed485be72ef5ea
+</code></pre></div><p>Good job! Next.</p><h2 id=level-28>Level 28</h2><p>In this challenge we will have to work with <strong>git</strong> if you know nothing about it you should google it and read a few cheatsheets.</p><blockquote><p>There is a git repository at ssh://bandit27-git@localhost/home/bandit27-git/repo. The password for the user bandit27-git is the same as for the user bandit27.</p></blockquote><blockquote><p>Clone the repository and find the password for the next level.</p></blockquote><p>So i&rsquo;ll first create a directory to clone the repository to, and then clone it.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit27@bandit:~$ mkdir /tmp/gitfolder
+bandit27@bandit:~$ cd /tmp/gitfolder
+bandit27@bandit:/tmp/gitfolder$ git clone ssh://bandit27-git@localhost/home/bandit27-git/repo
+Cloning into <span style=color:#e6db74>&#39;repo&#39;</span>...
+Could not create directory <span style=color:#e6db74>&#39;/home/bandit27/.ssh&#39;</span>.
+The authenticity of host <span style=color:#e6db74>&#39;localhost (127.0.0.1)&#39;</span> can<span style=color:#e6db74>&#39;t be established.
+</span><span style=color:#e6db74>ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+</span><span style=color:#e6db74>Are you sure you want to continue connecting (yes/no)? yes
+</span><span style=color:#e6db74>Failed to add the host to the list of known hosts (/home/bandit27/.ssh/known_hosts).
+</span><span style=color:#e6db74>This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+</span><span style=color:#e6db74>
+</span><span style=color:#e6db74>bandit27-git@localhost&#39;</span>s password: 
+remote: Counting objects: 3, <span style=color:#66d9ef>done</span>.
+remote: Compressing objects: 100% <span style=color:#f92672>(</span>2/2<span style=color:#f92672>)</span>, <span style=color:#66d9ef>done</span>.
+remote: Total <span style=color:#ae81ff>3</span> <span style=color:#f92672>(</span>delta 0<span style=color:#f92672>)</span>, reused <span style=color:#ae81ff>0</span> <span style=color:#f92672>(</span>delta 0<span style=color:#f92672>)</span>
+Receiving objects: 100% <span style=color:#f92672>(</span>3/3<span style=color:#f92672>)</span>, <span style=color:#66d9ef>done</span>.
+bandit27@bandit:~$
+</code></pre></div><p>Done. Let&rsquo;s inspect the repo we&rsquo;ve just cloned.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit27@bandit:/tmp/gitfolder$ ls -la
+total <span style=color:#ae81ff>1952</span>
+drwxr-sr-x     <span style=color:#ae81ff>3</span> bandit27 root    <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:46 .
+drwxrws-wt <span style=color:#ae81ff>57125</span> root     root <span style=color:#ae81ff>1986560</span> Jul  <span style=color:#ae81ff>6</span> 13:47 ..
+drwxr-sr-x     <span style=color:#ae81ff>3</span> bandit27 root    <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:47 repo
+bandit27@bandit:/tmp/gitfolder$ cd repo/
+bandit27@bandit:/tmp/gitfolder/repo$ ls -la
+total <span style=color:#ae81ff>16</span>
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit27 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:47 .
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit27 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:46 ..
+drwxr-sr-x <span style=color:#ae81ff>8</span> bandit27 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:47 .git
+-rw-r--r-- <span style=color:#ae81ff>1</span> bandit27 root   <span style=color:#ae81ff>68</span> Jul  <span style=color:#ae81ff>6</span> 13:47 README
+</code></pre></div><p>Let&rsquo;s check that <code>README</code> file.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit27@bandit:/tmp/gitfolder/repo$ cat README 
+The password to the next level is: 0ef186ac70e04ea33b4c1853d2526fa2
+</code></pre></div><p>Done.</p><h2 id=level-29>Level 29</h2><p>Once again in this challenge we will have to work with git,</p><blockquote><p>There is a git repository at ssh://bandit28-git@localhost/home/bandit28-git/repo. The password for the user bandit28-git is the same as for the user bandit28.</p></blockquote><blockquote><p>Clone the repository and find the password for the next level.</p></blockquote><p>So let&rsquo;s clone it again and see the repo content.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit28@bandit:~$ mkdir /tmp/gitfolder2
+bandit28@bandit:~$ cd /tmp/gitfolder2
+bandit28@bandit:/tmp/gitfolder2$ git clone ssh://bandit28-git@localhost/home/bandit28-git/repo
+Cloning into <span style=color:#e6db74>&#39;repo&#39;</span>...
+Could not create directory <span style=color:#e6db74>&#39;/home/bandit28/.ssh&#39;</span>.
+The authenticity of host <span style=color:#e6db74>&#39;localhost (127.0.0.1)&#39;</span> can<span style=color:#e6db74>&#39;t be established.
+</span><span style=color:#e6db74>ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+</span><span style=color:#e6db74>Are you sure you want to continue connecting (yes/no)? yes
+</span><span style=color:#e6db74>Failed to add the host to the list of known hosts (/home/bandit28/.ssh/known_hosts).
+</span><span style=color:#e6db74>This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+</span><span style=color:#e6db74>
+</span><span style=color:#e6db74>bandit28-git@localhost&#39;</span>s password: 
+remote: Counting objects: 9, <span style=color:#66d9ef>done</span>.
+remote: Compressing objects: 100% <span style=color:#f92672>(</span>6/6<span style=color:#f92672>)</span>, <span style=color:#66d9ef>done</span>.
+remote: Total <span style=color:#ae81ff>9</span> <span style=color:#f92672>(</span>delta 2<span style=color:#f92672>)</span>, reused <span style=color:#ae81ff>0</span> <span style=color:#f92672>(</span>delta 0<span style=color:#f92672>)</span>
+Receiving objects: 100% <span style=color:#f92672>(</span>9/9<span style=color:#f92672>)</span>, <span style=color:#66d9ef>done</span>.
+Resolving deltas: 100% <span style=color:#f92672>(</span>2/2<span style=color:#f92672>)</span>, <span style=color:#66d9ef>done</span>.
+</code></pre></div><p>Inspect the repo.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit28@bandit:/tmp/gitfolder2$ cd repo/
+bandit28@bandit:/tmp/gitfolder2/repo$ ls -la
+total <span style=color:#ae81ff>16</span>
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit28 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:51 .
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit28 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:51 ..
+drwxr-sr-x <span style=color:#ae81ff>8</span> bandit28 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:51 .git
+-rw-r--r-- <span style=color:#ae81ff>1</span> bandit28 root  <span style=color:#ae81ff>111</span> Jul  <span style=color:#ae81ff>6</span> 13:51 README.md
+bandit28@bandit:/tmp/gitfolder2/repo$ cat README.md 
+<span style=color:#75715e># Bandit Notes</span>
+Some notes <span style=color:#66d9ef>for</span> level29 of bandit.
+
+<span style=color:#75715e>## credentials</span>
+
+- username: bandit29
+- password: xxxxxxxxxx
+</code></pre></div><p>I saw a <code>README.md</code> file so i used <strong>cat</strong> to see it&rsquo;s content and there was nothing there. Let&rsquo;s inspect the commits made by doing <code>git log</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit28@bandit:/tmp/gitfolder2/repo$ git log
+commit 073c27c130e6ee407e12faad1dd3848a110c4f95
+Author: Morla Porla &lt;morla@overthewire.org&gt;
+Date:   Tue Oct <span style=color:#ae81ff>16</span> 14:00:39 <span style=color:#ae81ff>2018</span> +0200
+
+    fix info leak
+
+commit 186a1038cc54d1358d42d468cdc8e3cc28a93fcb
+Author: Morla Porla &lt;morla@overthewire.org&gt;
+Date:   Tue Oct <span style=color:#ae81ff>16</span> 14:00:39 <span style=color:#ae81ff>2018</span> +0200
+
+    add missing data
+
+commit b67405defc6ef44210c53345fc953e6a21338cc7
+Author: Ben Dover &lt;noone@overthewire.org&gt;
+Date:   Tue Oct <span style=color:#ae81ff>16</span> 14:00:39 <span style=color:#ae81ff>2018</span> +0200
+
+    initial commit of README.md
+</code></pre></div><p>Hmm&mldr; So the password used to be there but unfortunately someone was smart enough to remove it. We can go back to that commit by doing <code>git checkout</code> followed by the commit id. Let&rsquo;s do it then.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit28@bandit:/tmp/gitfolder2/repo$ git checkout 186a1038cc54d1358d42d468cdc8e3cc28a93fcb
+Note: checking out <span style=color:#e6db74>&#39;186a1038cc54d1358d42d468cdc8e3cc28a93fcb&#39;</span>.
+
+You are in <span style=color:#e6db74>&#39;detached HEAD&#39;</span> state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+<span style=color:#66d9ef>do</span> so <span style=color:#f92672>(</span>now or later<span style=color:#f92672>)</span> by using -b with the checkout command again. Example:
+
+  git checkout -b &lt;new-branch-name&gt;
+
+HEAD is now at 186a103... add missing data
+</code></pre></div><p>Let&rsquo;s see what was the state of the repo in this commit.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit28@bandit:/tmp/gitfolder2/repo$ ls -la
+total <span style=color:#ae81ff>16</span>
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit28 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:55 .
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit28 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:51 ..
+drwxr-sr-x <span style=color:#ae81ff>8</span> bandit28 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 13:55 .git
+-rw-r--r-- <span style=color:#ae81ff>1</span> bandit28 root  <span style=color:#ae81ff>133</span> Jul  <span style=color:#ae81ff>6</span> 13:55 README.md
+</code></pre></div><p>Still has the <code>README.md</code> file. By reading the commit messages we thought that there should be an information leak in this commit. Let&rsquo;s print the file&rsquo;s content.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit28@bandit:/tmp/gitfolder2/repo$ cat README.md 
+<span style=color:#75715e># Bandit Notes</span>
+Some notes <span style=color:#66d9ef>for</span> level29 of bandit.
+
+<span style=color:#75715e>## credentials</span>
+
+- username: bandit29
+- password: bbc96594b4e001778eee9975372716b2
+</code></pre></div><p>We got the password. Good job! Onto the next one.</p><h2 id=level-30>Level 30</h2><p>Same thing as before. We have a repo we need to clone it to a folder.</p><pre><code>bandit29@bandit:~$ mkdir /tmp/gitfolder3
+bandit29@bandit:~$ cd /tmp/gitfolder3
+bandit29@bandit:/tmp/gitfolder3$ git clone ssh://bandit29-git@localhost/home/bandit29-git/repo
+Cloning into 'repo'...
+Could not create directory '/home/bandit29/.ssh'.
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+Are you sure you want to continue connecting (yes/no)? yes
+Failed to add the host to the list of known hosts (/home/bandit29/.ssh/known_hosts).
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+bandit29-git@localhost's password: 
+remote: Counting objects: 16, done.
+remote: Compressing objects: 100% (11/11), done.
+remote: Total 16 (delta 2), reused 0 (delta 0)
+Receiving objects: 100% (16/16), done.
+Resolving deltas: 100% (2/2), done.
+bandit29@bandit:/tmp/gitfolder3$ ls -la
+total 1952
+drwxr-sr-x     3 bandit29 root    4096 Jul  6 14:02 .
+drwxrws-wt 57133 root     root 1986560 Jul  6 14:02 ..
+drwxr-sr-x     3 bandit29 root    4096 Jul  6 14:02 repo
+bandit29@bandit:/tmp/gitfolder3$ cd repo/
+bandit29@bandit:/tmp/gitfolder3/repo$ ls -al
+total 16
+drwxr-sr-x 3 bandit29 root 4096 Jul  6 14:02 .
+drwxr-sr-x 3 bandit29 root 4096 Jul  6 14:02 ..
+drwxr-sr-x 8 bandit29 root 4096 Jul  6 14:02 .git
+-rw-r--r-- 1 bandit29 root  131 Jul  6 14:02 README.md
+</code></pre><p>Once again let&rsquo;s see <code>README.md</code>&rsquo;s content.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ cat README.md 
+<span style=color:#75715e># Bandit Notes</span>
+Some notes <span style=color:#66d9ef>for</span> bandit30 of bandit.
+
+<span style=color:#75715e>## credentials</span>
+
+- username: bandit30
+- password: &lt;no passwords in production!&gt;
+</code></pre></div><p>We&rsquo;ve been through this before. Let&rsquo;s check the previous commits.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ git log
+commit 84abedc104bbc0c65cb9eb74eb1d3057753e70f8
+Author: Ben Dover &lt;noone@overthewire.org&gt;
+Date:   Tue Oct <span style=color:#ae81ff>16</span> 14:00:41 <span style=color:#ae81ff>2018</span> +0200
+
+    fix username
+
+commit 9b19e7d8c1aadf4edcc5b15ba8107329ad6c5650
+Author: Ben Dover &lt;noone@overthewire.org&gt;
+Date:   Tue Oct <span style=color:#ae81ff>16</span> 14:00:41 <span style=color:#ae81ff>2018</span> +0200
+
+    initial commit of README.md
+</code></pre></div><p>We can check if that first commit has anything interesting.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ git checkout 9b19e7d8c1aadf4edcc5b15ba8107329ad6c5650
+Note: checking out <span style=color:#e6db74>&#39;9b19e7d8c1aadf4edcc5b15ba8107329ad6c5650&#39;</span>.
+
+You are in <span style=color:#e6db74>&#39;detached HEAD&#39;</span> state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+<span style=color:#66d9ef>do</span> so <span style=color:#f92672>(</span>now or later<span style=color:#f92672>)</span> by using -b with the checkout command again. Example:
+
+  git checkout -b &lt;new-branch-name&gt;
+
+HEAD is now at 9b19e7d... initial commit of README.md
+</code></pre></div><p>Now let&rsquo;s check the file&rsquo;s content again.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ cat README.md 
+<span style=color:#75715e># Bandit Notes</span>
+Some notes <span style=color:#66d9ef>for</span> bandit30 of bandit.
+
+<span style=color:#75715e>## credentials</span>
+
+- username: bandit29
+- password: &lt;no passwords in production!&gt;
+</code></pre></div><p>Hm&mldr; Still nothing. Let&rsquo;s go back to our most recent commit by doing <code>git pull</code> and the repo link.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ git pull ssh://bandit29-git@localhost/home/bandit29-git/repo
+Could not create directory <span style=color:#e6db74>&#39;/home/bandit29/.ssh&#39;</span>.
+The authenticity of host <span style=color:#e6db74>&#39;localhost (127.0.0.1)&#39;</span> can<span style=color:#e6db74>&#39;t be established.
+</span><span style=color:#e6db74>ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+</span><span style=color:#e6db74>Are you sure you want to continue connecting (yes/no)? yes
+</span><span style=color:#e6db74>Failed to add the host to the list of known hosts (/home/bandit29/.ssh/known_hosts).
+</span><span style=color:#e6db74>This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+</span><span style=color:#e6db74>
+</span><span style=color:#e6db74>bandit29-git@localhost&#39;</span>s password: 
+From ssh://localhost/home/bandit29-git/repo
+ * branch            HEAD       -&gt; FETCH_HEAD
+Updating 9b19e7d..84abedc
+Fast-forward
+ README.md | <span style=color:#ae81ff>2</span> +-
+ <span style=color:#ae81ff>1</span> file changed, <span style=color:#ae81ff>1</span> insertion<span style=color:#f92672>(</span>+<span style=color:#f92672>)</span>, <span style=color:#ae81ff>1</span> deletion<span style=color:#f92672>(</span>-<span style=color:#f92672>)</span>
+</code></pre></div><p>We can see what branches exist by doing <code>git branch</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ git branch
+* <span style=color:#f92672>(</span>HEAD detached from 9b19e7d<span style=color:#f92672>)</span>
+  master
+</code></pre></div><p>We have 2 branches. Let&rsquo;s switch to the <code>master</code> branch since our checkouts may have messed with some changes.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ git checkout master
+Switched to branch <span style=color:#e6db74>&#39;master&#39;</span>
+Your branch is up-to-date with <span style=color:#e6db74>&#39;origin/master&#39;</span>.
+bandit29@bandit:/tmp/gitfolder3/repo$ git branch
+* master
+</code></pre></div><p>Hm&mldr; I guess we can see if there are any other branches that don&rsquo;t show up here.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ git show-branch --all
+! <span style=color:#f92672>[</span>dev<span style=color:#f92672>]</span> add data needed <span style=color:#66d9ef>for</span> development
+ * <span style=color:#f92672>[</span>master<span style=color:#f92672>]</span> fix username
+  ! <span style=color:#f92672>[</span>origin/HEAD<span style=color:#f92672>]</span> fix username
+   ! <span style=color:#f92672>[</span>origin/dev<span style=color:#f92672>]</span> add data needed <span style=color:#66d9ef>for</span> development
+    ! <span style=color:#f92672>[</span>origin/master<span style=color:#f92672>]</span> fix username
+     ! <span style=color:#f92672>[</span>origin/sploits-dev<span style=color:#f92672>]</span> add some silly exploit, just <span style=color:#66d9ef>for</span> shit and giggles
+------
+     + <span style=color:#f92672>[</span>origin/sploits-dev<span style=color:#f92672>]</span> add some silly exploit, just <span style=color:#66d9ef>for</span> shit and giggles
++  +   <span style=color:#f92672>[</span>dev<span style=color:#f92672>]</span> add data needed <span style=color:#66d9ef>for</span> development
++  +   <span style=color:#f92672>[</span>dev^<span style=color:#f92672>]</span> add gif2ascii
++*++++ <span style=color:#f92672>[</span>master<span style=color:#f92672>]</span> fix username
+</code></pre></div><p>Ok we have some other branches like <code>dev</code> and <code>sploits-dev</code>. Since i like exploits let&rsquo;s check that one first.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ git checkout sploits-dev 
+Branch sploits-dev set up to track remote branch sploits-dev from origin.
+Switched to a new branch <span style=color:#e6db74>&#39;sploits-dev&#39;</span>
+bandit29@bandit:/tmp/gitfolder3/repo$ ls -la
+total <span style=color:#ae81ff>20</span>
+drwxr-sr-x <span style=color:#ae81ff>4</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:27 .
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:02 ..
+drwxr-sr-x <span style=color:#ae81ff>2</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:27 exploits
+drwxr-sr-x <span style=color:#ae81ff>8</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:27 .git
+-rw-r--r-- <span style=color:#ae81ff>1</span> bandit29 root  <span style=color:#ae81ff>131</span> Jul  <span style=color:#ae81ff>6</span> 14:25 README.md
+</code></pre></div><p>That folder seems interesting.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ cd exploits/
+bandit29@bandit:/tmp/gitfolder3/repo/exploits$ ls -la
+total <span style=color:#ae81ff>12</span>
+drwxr-sr-x <span style=color:#ae81ff>2</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:27 .
+drwxr-sr-x <span style=color:#ae81ff>4</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:27 ..
+-rw-r--r-- <span style=color:#ae81ff>1</span> bandit29 root    <span style=color:#ae81ff>1</span> Jul  <span style=color:#ae81ff>6</span> 14:27 horde5.md
+</code></pre></div><p>We HAVE to print that file&rsquo;s content.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo/exploits$ cat horde5.md 
+
+</code></pre></div><p>Oh&mldr; It&rsquo;s empty. Let&rsquo;s check the other branch then.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ git checkout dev
+Switched to branch <span style=color:#e6db74>&#39;dev&#39;</span>
+Your branch is up-to-date with <span style=color:#e6db74>&#39;origin/dev&#39;</span>.
+bandit29@bandit:/tmp/gitfolder3/repo$ ls -la
+total <span style=color:#ae81ff>20</span>
+drwxr-sr-x <span style=color:#ae81ff>4</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:31 .
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:02 ..
+drwxr-sr-x <span style=color:#ae81ff>2</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:31 code
+drwxr-sr-x <span style=color:#ae81ff>8</span> bandit29 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 14:31 .git
+-rw-r--r-- <span style=color:#ae81ff>1</span> bandit29 root  <span style=color:#ae81ff>134</span> Jul  <span style=color:#ae81ff>6</span> 14:31 README.md
+</code></pre></div><p>Let&rsquo;s first check <code>README.md</code> to be sure it has nothing new.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit29@bandit:/tmp/gitfolder3/repo$ cat README.md 
+<span style=color:#75715e># Bandit Notes</span>
+Some notes <span style=color:#66d9ef>for</span> bandit30 of bandit.
+
+<span style=color:#75715e>## credentials</span>
+
+- username: bandit30
+- password: 5b90576bedb2cc04c86a9e924ce42faf
+</code></pre></div><p>This should do it. Good job.</p><h2 id=level-31>Level 31</h2><p>This challenge is still related to <strong>git</strong>. So we&rsquo;ll just follow the same steps as before, create the directory and clone the repo in there.</p><pre><code>bandit30@bandit:~$ mkdir /tmp/gitfolder4
+bandit30@bandit:~$ cd /tmp/gitfolder4
+bandit30@bandit:/tmp/gitfolder4$ git clone ssh://bandit30-git@localhost/home/bandit30-git/repo
+Cloning into 'repo'...
+Could not create directory '/home/bandit30/.ssh'.
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+Are you sure you want to continue connecting (yes/no)? yes
+Failed to add the host to the list of known hosts (/home/bandit30/.ssh/known_hosts).
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+bandit30-git@localhost's password: 
+remote: Counting objects: 4, done.
+remote: Total 4 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (4/4), done.
+</code></pre><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit30@bandit:/tmp/gitfolder4$ ls -la
+total <span style=color:#ae81ff>1952</span>
+drwxr-sr-x     <span style=color:#ae81ff>3</span> bandit30 root    <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 19:12 .
+drwxrws-wt <span style=color:#ae81ff>57253</span> root     root <span style=color:#ae81ff>1986560</span> Jul  <span style=color:#ae81ff>6</span> 19:14 ..
+drwxr-sr-x     <span style=color:#ae81ff>3</span> bandit30 root    <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 19:12 repo
+bandit30@bandit:/tmp/gitfolder4$ cd repo
+bandit30@bandit:/tmp/gitfolder4/repo$ ls -la
+total <span style=color:#ae81ff>16</span>
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit30 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 19:12 .
+drwxr-sr-x <span style=color:#ae81ff>3</span> bandit30 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 19:12 ..
+drwxr-sr-x <span style=color:#ae81ff>8</span> bandit30 root <span style=color:#ae81ff>4096</span> Jul  <span style=color:#ae81ff>6</span> 19:12 .git
+-rw-r--r-- <span style=color:#ae81ff>1</span> bandit30 root   <span style=color:#ae81ff>30</span> Jul  <span style=color:#ae81ff>6</span> 19:12 README.md
+bandit30@bandit:/tmp/gitfolder4/repo$ cat README.md 
+just an epmty file... muahaha
+</code></pre></div><p>This was me inspecting the files and folders in the repo. There is nothing interesting, so let&rsquo;s check <strong>git</strong>.</p><pre><code>bandit30@bandit:/tmp/gitfolder4/repo$ git show-branch --all
+* [master] initial commit of README.md
+ ! [origin/HEAD] initial commit of README.md
+  ! [origin/master] initial commit of README.md
+---
+*++ [master] initial commit of README.md
+</code></pre><p>No special hidden branches.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit30@bandit:/tmp/gitfolder4/repo$ git log
+commit 3aa4c239f729b07deb99a52f125893e162daac9e
+Author: Ben Dover &lt;noone@overthewire.org&gt;
+Date:   Tue Oct <span style=color:#ae81ff>16</span> 14:00:44 <span style=color:#ae81ff>2018</span> +0200
+
+    initial commit of README.md
+</code></pre></div><p>Only one commit, nothing interesting&mldr; Let&rsquo;s check the tags then.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit30@bandit:/tmp/gitfolder4/repo/.git$ git tag
+secret
+</code></pre></div><p>OK this seems interesting! A tag called <code>secret</code>. We can see the tag message by doing <code>git show secret</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>bandit30@bandit:/tmp/gitfolder4/repo$ git show secret
+47e603bb428404d265f59c42920d81e5
+</code></pre></div><p>We got the password. Next one!</p><h2 id=level-32>Level 32</h2><p>Once gain this challenge uses git.</p><pre><code>bandit31@bandit:~$ ls -la
+total 24
+drwxr-xr-x  2 root root 4096 Oct 16  2018 .
+drwxr-xr-x 41 root root 4096 Oct 16  2018 ..
+-rw-r--r--  1 root root  220 May 15  2017 .bash_logout
+-rw-r--r--  1 root root 3526 May 15  2017 .bashrc
+-rwxr-xr-x  1 root root   59 Oct 16  2018 .gitconfig
+-rw-r--r--  1 root root  675 May 15  2017 .profile
+bandit31@bandit:~$ mkdir /tmp/gitfolder5
+bandit31@bandit:~$ cd /tmp/gitfolder5
+bandit31@bandit:/tmp/gitfolder5$ git clone ssh://bandit31-git@localhost/home/bandit31-git/repo
+Cloning into 'repo'...
+Could not create directory '/home/bandit31/.ssh'.
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+Are you sure you want to continue connecting (yes/no)? yes
+Failed to add the host to the list of known hosts (/home/bandit31/.ssh/known_hosts).
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+bandit31-git@localhost's password: 
+remote: Counting objects: 4, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 4 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (4/4), done.
+</code></pre><p>Let&rsquo;s inspect the repo.</p><pre><code>bandit31@bandit:/tmp/gitfolder5$ ls -la
+total 1952
+drwxr-sr-x     3 bandit31 root    4096 Jul  6 19:37 .
+drwxrws-wt 57264 root     root 1986560 Jul  6 19:38 ..
+drwxr-sr-x     3 bandit31 root    4096 Jul  6 19:37 repo
+bandit31@bandit:/tmp/gitfolder5$ cd repo/
+bandit31@bandit:/tmp/gitfolder5/repo$ ls -la
+total 20
+drwxr-sr-x 3 bandit31 root 4096 Jul  6 19:37 .
+drwxr-sr-x 3 bandit31 root 4096 Jul  6 19:37 ..
+drwxr-sr-x 8 bandit31 root 4096 Jul  6 19:37 .git
+-rw-r--r-- 1 bandit31 root    6 Jul  6 19:37 .gitignore
+-rw-r--r-- 1 bandit31 root  147 Jul  6 19:37 README.md
+bandit31@bandit:/tmp/gitfolder5/repo$ cat README.md 
+This time your task is to push a file to the remote repository.
+
+Details:
+    File name: key.txt
+    Content: 'May I come in?'
+    Branch: master
+</code></pre><p>So the <code>README.md</code> mentions a <code>key.txt</code> file, and that we should push a file to the repo. Let&rsquo;s do it then.</p><pre><code>bandit31@bandit:/tmp/gitfolder5/repo$ vi key.txt 
+bandit31@bandit:/tmp/gitfolder5/repo$ git add .
+bandit31@bandit:/tmp/gitfolder5/repo$ git commit -a
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working tree clean
+</code></pre><p>Well we couldn&rsquo;t push since it says we are up to date. Maybe it&rsquo;s the gitignore. Let&rsquo;s see it.</p><pre><code>bandit31@bandit:/tmp/gitfolder5/repo$ cat .gitignore 
+*.txt
+</code></pre><p>So as i suspected <strong>git</strong> is ignoring all the files with the <code>txt</code> extension, so <code>key.txt</code> would be ignored. We can for the file to be added anyways by using the <code>-f</code> flag.</p><pre><code>bandit31@bandit:/tmp/gitfolder5/repo$ git add key.txt -f
+bandit31@bandit:/tmp/gitfolder5/repo$ git commit -a
+Unable to create directory /home/bandit31/.nano: Permission denied
+It is required for saving/loading search history or cursor positions.
+
+Press Enter to continue
+
+[master e67c6e5] Added key.txt file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 key.txt
+</code></pre><p>Now we only need to push the file.</p><pre><code>bandit31@bandit:/tmp/gitfolder5/repo$ git push
+Could not create directory '/home/bandit31/.ssh'.
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+Are you sure you want to continue connecting (yes/no)? yes
+Failed to add the host to the list of known hosts (/home/bandit31/.ssh/known_hosts).
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+bandit31-git@localhost's password: 
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 326 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+remote: ### Attempting to validate files... ####
+remote: 
+remote: .oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.
+remote: 
+remote: Well done! Here is the password for the next level:
+remote: 56a9bf19c63d650ce78e6ec0354ee45e
+remote: 
+remote: .oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.
+remote: 
+To ssh://localhost/home/bandit31-git/repo
+ ! [remote rejected] master -&gt; master (pre-receive hook declined)
+error: failed to push some refs to 'ssh://bandit31-git@localhost/home/bandit31-git/repo'
+</code></pre><p>We got the password! Good job.</p><h2 id=level-33>Level 33</h2><blockquote><p>After all this git stuff its time for another escape. Good luck!</p></blockquote><p>Enough of <strong>git</strong> then. Now we have to escape.</p><pre><code>WELCOME TO THE UPPERCASE SHELL
+&gt;&gt;
+</code></pre><p>So now we are stuck inside of a uppercase shell. Any command that we run is ran in upper case.</p><pre><code>&gt;&gt; ls
+sh: 1: LS: not found
+&gt;&gt; &quot;ls&quot;
+sh: 1: LS: not found
+</code></pre><p>Not even as a string.</p><p>Well i had to google this one because this wasn&rsquo;t really that easy. So it happens that the <code>$0</code> variable runs a shell, so that should be enough.</p><pre><code>&gt;&gt; $0
+$ 
+</code></pre><p>We got a shell. Now it should be easy to just see the file content.</p><pre><code>$ ls -la
+total 28
+drwxr-xr-x  2 root     root     4096 Oct 16  2018 .
+drwxr-xr-x 41 root     root     4096 Oct 16  2018 ..
+-rw-r--r--  1 root     root      220 May 15  2017 .bash_logout
+-rw-r--r--  1 root     root     3526 May 15  2017 .bashrc
+-rw-r--r--  1 root     root      675 May 15  2017 .profile
+-rwsr-x---  1 bandit33 bandit32 7556 Oct 16  2018 uppershell
+$ cat /etc/bandit_pass/bandit33
+c9c3199ddf4121b10cf581a98d51caee
+</code></pre><p>Done! Next one!</p><h2 id=level-34>Level 34</h2><pre><code>bandit33@bandit:~$ ls -la
+total 24
+drwxr-xr-x  2 root     root     4096 Oct 16  2018 .
+drwxr-xr-x 41 root     root     4096 Oct 16  2018 ..
+-rw-r--r--  1 root     root      220 May 15  2017 .bash_logout
+-rw-r--r--  1 root     root     3526 May 15  2017 .bashrc
+-rw-r--r--  1 root     root      675 May 15  2017 .profile
+-rw-------  1 bandit33 bandit33  430 Oct 16  2018 README.txt
+bandit33@bandit:~$ cat README.txt 
+Congratulations on solving the last level of this game!
+
+At this moment, there are no more levels to play in this game. However, we are constantly working
+on new levels and will most likely expand this game with more levels soon.
+Keep an eye out for an announcement on our usual communication channels!
+In the meantime, you could play some of our other wargames.
+
+If you have an idea for an awesome new level, please let us know!
+</code></pre><p>We did it! We finished all the levels! At the moment (July 6th, 2019) there are no more challenges. So bye bye and thanks for checking out this walkthrough.</p></div></article><hr><div class=post-info><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>10393 Words</p><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>2019-12-26 22:41 +0000</p></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/csaw2020writeup-slithery/><span class=button__icon>←</span>
+<span class=button__text>CSAW 2020 - slithery</span></a></span>
+<span class="button next"><a href=/posts/otw-krypton_walkthrough/><span class=button__text>Over The Wire - Krypton Walkthrough</span>
+<span class=button__icon>→</span></a></span></div></div></main></div><footer class=footer><div class=footer__inner><div class=footer__content><span>&copy; 2020</span>
+<span></span><span><a href=/posts/index.xml target=_blank title=rss><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></span></div></div><div class=footer__inner><div class=footer__content><span>Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>Made with &#10084; by <a href=https://github.com/rhazdon>Djordje Atlialp</a></span></div></div></footer></div><script type=text/javascript src=/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script></body></html>

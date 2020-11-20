@@ -1,0 +1,186 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=author content><meta name=description content="Level 0 Arriving at Level 0 we can use ls -l to print any files, however it prints:
+total 0 So we should maybe use ls -la which should print:
+total 24 drwxr-xr-x 3 root root 4096 Oct 29 21:17 . drwxr-xr-x 10 root root 4096 Oct 29 21:17 .. drwxr-x--- 2 leviathan1 leviathan0 4096 Oct 29 21:17 .backup -rw-r--r-- 1 root root 220 May 15 2017 .bash_logout -rw-r--r-- 1 root root 3526 May 15 2017 ."><meta name=keywords content><meta name=robots content="noodp"><meta name=theme-color content="#252627"><link rel=canonical href=/posts/otw-leviathan_walkthrough/><title>Over The Wire - Leviathan Walkthrough :: NOVA CTF — FCT @ UNL</title><link href=https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css rel=stylesheet type=text/css><link rel=stylesheet href=/main.min.94127ca3b2f97e5bba77859c12fd8f442fd739192280fae759c86cf979ccebe0.css><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#252627><link rel="shortcut icon" href=/favicon.ico><meta name=msapplication-TileColor content="#252627"><meta name=theme-color content="#252627"><meta itemprop=name content="Over The Wire - Leviathan Walkthrough"><meta itemprop=description content="Level 0 Arriving at Level 0 we can use ls -l to print any files, however it prints:
+total 0 So we should maybe use ls -la which should print:
+total 24 drwxr-xr-x 3 root root 4096 Oct 29 21:17 . drwxr-xr-x 10 root root 4096 Oct 29 21:17 .. drwxr-x--- 2 leviathan1 leviathan0 4096 Oct 29 21:17 .backup -rw-r--r-- 1 root root 220 May 15 2017 .bash_logout -rw-r--r-- 1 root root 3526 May 15 2017 ."><meta itemprop=datePublished content="2019-03-31T00:05:08+00:00"><meta itemprop=dateModified content="2019-03-31T00:05:08+00:00"><meta itemprop=wordCount content="1824"><meta itemprop=image content="/"><meta itemprop=keywords content><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="/"><meta name=twitter:title content="Over The Wire - Leviathan Walkthrough"><meta name=twitter:description content="Level 0 Arriving at Level 0 we can use ls -l to print any files, however it prints:
+total 0 So we should maybe use ls -la which should print:
+total 24 drwxr-xr-x 3 root root 4096 Oct 29 21:17 . drwxr-xr-x 10 root root 4096 Oct 29 21:17 .. drwxr-x--- 2 leviathan1 leviathan0 4096 Oct 29 21:17 .backup -rw-r--r-- 1 root root 220 May 15 2017 .bash_logout -rw-r--r-- 1 root root 3526 May 15 2017 ."><meta property="article:published_time" content="2019-03-31 00:05:08 +0000 UTC"></head><body class=dark-theme><div class=container><header class=header><span class=header__inner><a href=/ style=text-decoration:none><div class=logo><span class=logo__mark>></span>
+<span class=logo__text>cd /novactf</span>
+<span class=logo__cursor></span></div></a><span class=header__right><nav class=menu><ul class=menu__inner><li><a href=/about>About</a></li><li><a href=https://discord.gg/BqUuGsY>Sign Up</a></li></ul></nav><span class=menu-trigger><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></span><span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22 41 11.5066 32.4934 3 22 3 11.5066 3 3 11.5066 3 22s8.5066 19 19 19zM7 22C7 13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22z"/></svg></span></span></span></header><div class=content><main class=post><div class=post-info><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>9 minutes</p></div><article><h1 class=post-title><a href=/posts/otw-leviathan_walkthrough/>Over The Wire - Leviathan Walkthrough</a></h1><div class=post-content><h1 id=level-0>Level 0</h1><p>Arriving at Level 0 we can use <code>ls -l</code> to print any files, however it prints:</p><pre><code>total 0
+</code></pre><p>So we should maybe use <code>ls -la</code> which should print:</p><pre><code>total 24
+drwxr-xr-x  3 root       root       4096 Oct 29 21:17 .
+drwxr-xr-x 10 root       root       4096 Oct 29 21:17 ..
+drwxr-x---  2 leviathan1 leviathan0 4096 Oct 29 21:17 .backup
+-rw-r--r--  1 root       root        220 May 15  2017 .bash_logout
+-rw-r--r--  1 root       root       3526 May 15  2017 .bashrc
+-rw-r--r--  1 root       root        675 May 15  2017 .profile
+</code></pre><p>Because according to <code>man ls</code>:</p><pre><code>-a, --all
+              do not ignore entries starting with .
+</code></pre><p>We <code>cd .backup && ls -la</code> in order to get into the directory and print the contents and get:</p><pre><code>total 140
+drwxr-x--- 2 leviathan1 leviathan0   4096 Oct 29 21:17 .
+drwxr-xr-x 3 root       root         4096 Oct 29 21:17 ..
+-rw-r----- 1 leviathan1 leviathan0 133259 Oct 29 21:17 bookmarks.html
+</code></pre><p>We need to read the <code>bookmarks.html</code> and the easiest way is using <code>cat</code>, however there&rsquo;s a problem, the file is extremely long!
+Time to filter it! We pipe it to <code>grep</code> and search for <code>leviathan</code> given the password should probably be referenced that way!</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>cat bookmarks.html | grep leviathan
+</code></pre></div><p>And lo and behold!</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html>&lt;<span style=color:#f92672>DT</span>&gt;&lt;<span style=color:#f92672>A</span> <span style=color:#a6e22e>HREF</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;http://leviathan.labs.overthewire.org/passwordus.html | This will be fixed later, the password for leviathan1 is rioGegei8m&#34;</span> <span style=color:#a6e22e>ADD_DATE</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;1155384634&#34;</span> <span style=color:#a6e22e>LAST_CHARSET</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;ISO-8859-1&#34;</span> <span style=color:#a6e22e>ID</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;rdf:#$2wIU71&#34;</span>&gt;password to leviathan1&lt;/<span style=color:#f92672>A</span>&gt;
+</code></pre></div><h1 id=level-1>Level 1</h1><p>Again and moving forward, our first command when we arrive to the level is <code>ls -la</code>.</p><p>This time the output is:</p><pre><code>total 28
+drwxr-xr-x  2 root       root       4096 Oct 29 21:17 .
+drwxr-xr-x 10 root       root       4096 Oct 29 21:17 ..
+-rw-r--r--  1 root       root        220 May 15  2017 .bash_logout
+-rw-r--r--  1 root       root       3526 May 15  2017 .bashrc
+-r-sr-x---  1 leviathan2 leviathan1 7452 Oct 29 21:17 check
+-rw-r--r--  1 root       root        675 May 15  2017 .profile
+</code></pre><p>Uh, what is that check? Lets find out, we run <code>file</code> on it and we get back:</p><pre><code>check: setuid ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=c735f6f3a3a94adcad8407cc0fda40496fd765dd, not stripped
+</code></pre><p>Since it is an executable we can first try to see what it does!
+When executing it, it asks us for a password, if we fail it closes&mldr;</p><p>We can try to find out the string using <code>strings</code> on it, however it doesn&rsquo;t provide anything meaningful in this case.</p><p>Introducing <code>ltrace</code>!</p><pre><code>ltrace is a program that simply runs the specified command until it exits. It intercepts and records the dynamic library calls which are called by the executed process and the signals which are received by that process. It can also intercept and print the system calls executed by the program.
+</code></pre><p>Let&rsquo;s try it out, run <code>ltrace ./check</code>, the program will start running as normal however you can already see a lot of information about what&rsquo;s going on.</p><p>Using <code>test</code> as our password the output we get from <code>ltrace</code> is this.</p><pre><code>__libc_start_main(0x804853b, 1, 0xffffd794, 0x8048610 &lt;unfinished ...&gt;
+printf(&quot;password: &quot;)                                                                                                                                                 = 10
+getchar(1, 0, 0x65766f6c, 0x646f6700password: test
+)                                                                                                                                = 116
+getchar(1, 0, 0x65766f6c, 0x646f6700)                                                                                                                                = 101
+getchar(1, 0, 0x65766f6c, 0x646f6700)                                                                                                                                = 115
+strcmp(&quot;tes&quot;, &quot;sex&quot;)                                                                                                                                                 = 1
+puts(&quot;Wrong password, Good Bye ...&quot;Wrong password, Good Bye ...
+)                                                                                                                                 = 29
++++ exited (status 0) +++
+</code></pre><p>We can see it calls <code>strcmp</code> with the first 3 characters from the input password and compares them with <code>sex</code>.</p><p>Trying is as a password gives us another shell! Did our user changed? Running <code>whoami</code> we get the following:</p><pre><code>leviathan2
+</code></pre><p>Uhhh! This means we can read the password for the next level!</p><p>Running <code>cat /etc/leviathan_pass/leviathan2</code> outputs our password!</p><pre><code>ougahZi8Ta
+</code></pre><h1 id=level-2>Level 2</h1><p>This time we have <code>printfile</code>, since we have no clue what it does lets run it.</p><p>An empty argument list yields:</p><pre><code>*** File Printer ***
+Usage: ./printfile filename
+</code></pre><p>So we create a file on the <code>/tmp</code> folder with <code>echo "test" >> /tmp/printfile_test</code>,
+so now our file contains <code>test</code> and given the executable name we are hoping to see <code>test</code> being printed out.</p><p>As expected <code>./printfile /tmp/printfile_test</code> prints out:</p><pre><code>test
+</code></pre><p>Let&rsquo;s try the same, however using <code>ltrace</code>, the output is:</p><pre><code>__libc_start_main(0x804852b, 2, 0xffffd774, 0x8048610 &lt;unfinished ...&gt;
+access(&quot;/tmp/printfile_test&quot;, 4)                                                                                                                                     = 0
+snprintf(&quot;/bin/cat /tmp/printfile_test&quot;, 511, &quot;/bin/cat %s&quot;, &quot;/tmp/printfile_test&quot;)                                                                                  = 28
+geteuid()                                                                                                                                                            = 12002
+geteuid()                                                                                                                                                            = 12002
+setreuid(12002, 12002)                                                                                                                                               = 0
+system(&quot;/bin/cat /tmp/printfile_test&quot;test
+ &lt;no return ...&gt;
+--- SIGCHLD (Child exited) ---
+&lt;... system resumed&gt; )                                                                                                                                               = 0
++++ exited (status 0) +++
+</code></pre><p>The second line <code>access("/tmp/printfile_test", 4)</code>,
+checks wether the calling process can access the file.</p><p>As stated in the <code>access(2)</code> manpage:</p><blockquote><p><code>access()</code> checks whether the calling process can access the file <code>pathname</code>. If <code>pathname</code> is a symbolic link, it is dereferenced.</p><p>(&mldr;)</p><p>The check is done using the calling process&rsquo;s real UID and GID, rather than the effective IDs as is done when actually attempting an operation (e.g., open(2)) on the file.</p></blockquote><p>So far we know the following:</p><ul><li><code>access</code> requires the file to exist</li><li>It will check the permission based on the process real UID and GID<ul><li>This means that it checks if the user calling the process has the permissions and not the program itself</li></ul></li></ul><p>If we go further we can see that two calls to <code>geteuid</code> are made, both returning <code>12002</code>.
+Running <code>id -u</code> we can verify that that is the ID of <code>leviathan2</code>.</p><p>Afterwards we can observe a call to <code>setreuid</code>, a quick look in the manpages yields the following:</p><blockquote><p>setreuid() sets real and effective user IDs of the calling process.</p></blockquote><p>This means that we have a <code>setuid</code>-like binary in hands,
+and so we can&rsquo;t rely on <code>ltrace</code> to do a faithful job,
+while there is a flag addressing such issue:</p><blockquote><p><code>-u username</code></p><p>Run command with the userid, groupid and supplementary groups of username. This option is only useful when running as root and enables the correct execution of setuid and/or setgid binaries.</p></blockquote><p>It only works for root,
+so when we want to try the &ldquo;final&rdquo; version we will always run without <code>ltrace</code>,
+this applies for further levels as well.</p><p>Finally there is a call to <code>system</code>:</p><pre><code>system(&quot;/bin/cat /tmp/printfile_test&quot;)
+</code></pre><p>This call will be executed with the priviledges set by <code>setreuid</code> and while when running with <code>ltrace</code>
+they are the same as the current level it is possible to think that without it,
+it is probably a more usefull call.</p><p>This opens up a security hole given that the priviledges being checked with <code>access</code>
+are not the same as the ones when calling <code>system</code>.
+Furthermore the use of <code>%s</code> in <code>snprintf</code> means that
+we have control of the input over the command being run.</p><p>Ideally we want to run the following command:</p><pre><code>cat /etc/leviathan_pass/leviathan3
+</code></pre><p>However we do not have access to <code>/etc/leviathan_pass/leviathan3</code>,
+to any symbolic links given that they resolve to the file anyway,
+neither we can create a file called <code>test /etc/leviathan_pass/leviathan3</code>.</p><p>However we can create one called <code>test link</code>, and then run <code>printfile "test link"</code>.
+This won&rsquo;t be very useful unless either <code>test</code> or <code>link</code> are symbolic links to <code>/etc/leviathan_pass/leviathan3</code>.
+To do so, we run</p><pre><code>touch &quot;test link&quot;
+ln -s /etc/leviathan_pass/leviathan3 link
+~/printfile &quot;test link&quot;
+</code></pre><p>Which will create the dummy file for the <code>printfile</code> to take and check access over,
+create a symbolic link to <code>/etc/leviathan_pass/leviathan3</code> named <code>link</code>
+and finally run <code>~/printfile "test link"</code> yielding:</p><pre><code>/bin/cat: test: No such file or directory
+Ahdiemoo1j
+</code></pre><p>And there is our password!</p><h1 id=level-3>Level 3</h1><p>Going into Level 3,
+we have yet another password challenge,
+running the <code>level3</code> executable shows us a prompt for a password.</p><pre><code>leviathan3@leviathan:~$ ./level3 
+Enter the password&gt; password
+bzzzzzzzzap. WRONG
+</code></pre><p>We grab our old friend <code>ltrace</code> and run <code>ltrace ./level3</code>, the following ensues.</p><pre><code>__libc_start_main(0x8048618, 1, 0xffffd784, 0x80486d0 &lt;unfinished ...&gt;
+strcmp(&quot;h0no33&quot;, &quot;kakaka&quot;)                                                        = -1
+printf(&quot;Enter the password&gt; &quot;)                                                    = 20
+fgets(Enter the password&gt; password
+&quot;password\n&quot;, 256, 0xf7fc55a0)                                              = 0xffffd590
+strcmp(&quot;password\n&quot;, &quot;snlprintf\n&quot;)                                               = -1
+puts(&quot;bzzzzzzzzap. WRONG&quot;bzzzzzzzzap. WRONG
+)                                                        = 19
++++ exited (status 0) +++
+</code></pre><p>While in the second line we have a clearly false comparison,
+after <code>fgets</code> we see our input being compared to <code>snlprintf</code>,
+so we try again with <code>snlprintf</code> as input.</p><pre><code>__libc_start_main(0x8048618, 1, 0xffffd784, 0x80486d0 &lt;unfinished ...&gt;
+strcmp(&quot;h0no33&quot;, &quot;kakaka&quot;)                                                        = -1
+printf(&quot;Enter the password&gt; &quot;)                                                    = 20
+fgets(Enter the password&gt; snlprintf
+&quot;snlprintf\n&quot;, 256, 0xf7fc55a0)                                             = 0xffffd590
+strcmp(&quot;snlprintf\n&quot;, &quot;snlprintf\n&quot;)                                              = 0
+puts(&quot;[You've got shell]!&quot;[You've got shell]!
+)                                                       = 20
+geteuid()                                                                         = 12003
+geteuid()                                                                         = 12003
+setreuid(12003, 12003)                                                            = 0
+system(&quot;/bin/sh&quot;$ whoami
+leviathan3
+$ exit
+ &lt;no return ...&gt;
+--- SIGCHLD (Child exited) ---
+&lt;... system resumed&gt; )                                                            = 0
++++ exited (status 0) +++
+</code></pre><p>This got us shell!
+However when running with <code>ltrace</code> the program runs within the <code>leviathan3</code> user.
+Ditching <code>ltrace</code> and running the executable alone gives us the following result.</p><pre><code>/level3 
+Enter the password&gt; snlprintf
+[You've got shell]!
+$ whoami
+leviathan4
+</code></pre><p>Meaning we can get the password for Level 4.</p><pre><code>$ cat /etc/leviathan_pass/leviathan4
+vuH0coox6m
+</code></pre><p>Ta-daaaaa!</p><h1 id=level-4>Level 4</h1><p>Running <code>ls -la</code> so that nothing escapes our grasp shows the following.</p><pre><code>total 24
+drwxr-xr-x  3 root root       4096 Oct 29  2018 .
+drwxr-xr-x 10 root root       4096 Oct 29  2018 ..
+-rw-r--r--  1 root root        220 May 15  2017 .bash_logout
+-rw-r--r--  1 root root       3526 May 15  2017 .bashrc
+-rw-r--r--  1 root root        675 May 15  2017 .profile
+dr-xr-x---  2 root leviathan4 4096 Oct 29  2018 .trash
+</code></pre><p>Diving in the <code>.trash</code> we find the executable <code>bin</code>.
+Running it prints the following output.</p><pre><code>01010100 01101001 01110100 01101000 00110100 01100011 01101111 01101011 01100101 01101001 00001010
+</code></pre><p>Passing it through a binary to ascii converter gives us the password to the next level - <code>Tith4cokei</code>.</p><h1 id=level-5>Level 5</h1><p>Running the same routine we find.</p><pre><code>total 28
+drwxr-xr-x  2 root       root       4096 Oct 29  2018 .
+drwxr-xr-x 10 root       root       4096 Oct 29  2018 ..
+-rw-r--r--  1 root       root        220 May 15  2017 .bash_logout
+-rw-r--r--  1 root       root       3526 May 15  2017 .bashrc
+-r-sr-x---  1 leviathan6 leviathan5 7560 Oct 29  2018 leviathan5
+-rw-r--r--  1 root       root        675 May 15  2017 .profile
+</code></pre><p>And running <code>./leviathan5</code> yields.</p><pre><code>Cannot find /tmp/file.log
+</code></pre><p>Maybe we can do another symbolic link!</p><p>We run <code>ln -s /etc/leviathan_pass/leviathan6 /tmp/file.log</code> to create it
+and afterwards we run the executable.</p><pre><code>leviathan5@leviathan:~$ ./leviathan5 
+UgaoFee4li
+</code></pre><p>Easy peasy, lemon squeezy.</p><h1 id=level-6>Level 6</h1><p>In Level 6 we have a PIN protected executable, given we need a 4 digit-code we can brute force it!</p><p>Using the power of <code>bash</code> we brew a script, dead simple, yet powerfull!</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
+</span><span style=color:#75715e></span>
+<span style=color:#66d9ef>for</span> a in <span style=color:#f92672>{</span>0..9<span style=color:#f92672>}</span>
+<span style=color:#66d9ef>do</span>
+  <span style=color:#66d9ef>for</span> b in <span style=color:#f92672>{</span>0..9<span style=color:#f92672>}</span>
+  <span style=color:#66d9ef>do</span>
+    <span style=color:#66d9ef>for</span> c in <span style=color:#f92672>{</span>0..9<span style=color:#f92672>}</span>
+    <span style=color:#66d9ef>do</span>
+      <span style=color:#66d9ef>for</span> d in <span style=color:#f92672>{</span>0..9<span style=color:#f92672>}</span>
+      <span style=color:#66d9ef>do</span>
+        echo <span style=color:#e6db74>&#34;</span>$a$b$c$d<span style=color:#e6db74>&#34;</span>
+        ~/leviathan6 <span style=color:#e6db74>&#34;</span>$a$b$c$d<span style=color:#e6db74>&#34;</span>
+      <span style=color:#66d9ef>done</span>
+    <span style=color:#66d9ef>done</span>
+  <span style=color:#66d9ef>done</span>
+<span style=color:#66d9ef>done</span>
+</code></pre></div><p>This will brute force the password and print the codes while doing it!</p><p>We do the following and wait.</p><pre><code>chmod a+x script.sh
+./script
+</code></pre><p>It will stop when the right password was reached, after a long list of numbers and wrongs.</p><pre><code>Wrong
+7120
+Wrong
+7121
+Wrong
+7122
+Wrong
+7123
+$ whoami
+leviathan7
+</code></pre><p>Voilá!</p><p>Now we just <code>cat</code> the password, when we exit the shell the script will continue running,
+there is no point to it, so you can just <code>Ctrl-C</code> to kill it.</p><pre><code>$ cat /etc/leviathan_pass/leviathan7
+ahy7MaeBo9
+</code></pre><h1 id=level-7>Level 7</h1><p>You did it!</p><p>If you enjoyed reading this walkthrough, have comments or fixes on it,
+send us an <a href=mailto:cibersegurancafct@gmail.com>email</a>.
+Author: <a href=https://jmg-duarte.github.io/>José Duarte</a>.</p></div></article><hr><div class=post-info><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>1824 Words</p><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>2019-03-31 00:05 +0000</p></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/otw-krypton_walkthrough/><span class=button__icon>←</span>
+<span class=button__text>Over The Wire - Krypton Walkthrough</span></a></span></div></div></main></div><footer class=footer><div class=footer__inner><div class=footer__content><span>&copy; 2020</span>
+<span></span><span><a href=/posts/index.xml target=_blank title=rss><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></span></div></div><div class=footer__inner><div class=footer__content><span>Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>Made with &#10084; by <a href=https://github.com/rhazdon>Djordje Atlialp</a></span></div></div></footer></div><script type=text/javascript src=/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script></body></html>

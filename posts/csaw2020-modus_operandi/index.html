@@ -1,0 +1,110 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=author content="Bruno Anjos"><meta name=description content="This is a crypto challenge from the CSAW 2020 CTF originally worth 150 points.
+The challenge initially tells us to connect as such:
+$ nc crypto.chal.csaw.io 5001 Hello! For each plaintext you enter, find out if the block cipher used is ECB or CBC. Enter &amp;quot;ECB&amp;quot; or &amp;quot;CBC&amp;quot; to get the flag! We need to tell if the cipher being used to encode our plaintext is ECB or CBC. The big difference is that ECB, which stands for Electronic Code Book, always produces the same ciphertext for a given block."><meta name=keywords content><meta name=robots content="noodp"><meta name=theme-color content="#252627"><link rel=canonical href=/posts/csaw2020-modus_operandi/><title>CSAW 2020 - modus_operandi :: NOVA CTF — FCT @ UNL</title><link href=https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css rel=stylesheet type=text/css><link rel=stylesheet href=/main.min.94127ca3b2f97e5bba77859c12fd8f442fd739192280fae759c86cf979ccebe0.css><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#252627><link rel="shortcut icon" href=/favicon.ico><meta name=msapplication-TileColor content="#252627"><meta name=theme-color content="#252627"><meta itemprop=name content="CSAW 2020 - modus_operandi"><meta itemprop=description content="CSAW 2020 crypto challenge"><meta itemprop=datePublished content="2020-09-17T00:00:00+00:00"><meta itemprop=dateModified content="2020-09-17T00:00:00+00:00"><meta itemprop=wordCount content="647"><meta itemprop=image content="/"><meta itemprop=keywords content><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="/"><meta name=twitter:title content="CSAW 2020 - modus_operandi"><meta name=twitter:description content="CSAW 2020 crypto challenge"><meta property="article:published_time" content="2020-09-17 00:00:00 +0000 UTC"></head><body class=dark-theme><div class=container><header class=header><span class=header__inner><a href=/ style=text-decoration:none><div class=logo><span class=logo__mark>></span>
+<span class=logo__text>cd /novactf</span>
+<span class=logo__cursor></span></div></a><span class=header__right><nav class=menu><ul class=menu__inner><li><a href=/about>About</a></li><li><a href=https://discord.gg/BqUuGsY>Sign Up</a></li></ul></nav><span class=menu-trigger><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></span><span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22 41 11.5066 32.4934 3 22 3 11.5066 3 3 11.5066 3 22s8.5066 19 19 19zM7 22C7 13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22z"/></svg></span></span></span></header><div class=content><main class=post><div class=post-info><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>4 minutes</p></div><article><h1 class=post-title><a href=/posts/csaw2020-modus_operandi/>CSAW 2020 - modus_operandi</a></h1><div class=post-content><p>This is a crypto challenge from the CSAW 2020 CTF originally worth 150 points.</p><p>The challenge initially tells us to connect as such:</p><pre><code>$ nc crypto.chal.csaw.io 5001
+Hello! For each plaintext you enter, find out if the block cipher used is ECB or CBC. Enter &quot;ECB&quot; or &quot;CBC&quot; to get the flag!
+</code></pre><p>We need to tell if the cipher being used to encode our plaintext is ECB or CBC. The big difference is that ECB, which stands for Electronic Code Book, always produces the same ciphertext for a given block.</p><p>The first thing to do is figure out the cipher block size. We can do this easily by entering only a letter and check out the size of the output.</p><pre><code>$ nc crypto.chal.csaw.io 5001
+(INITIAL MESSAGE)
+Enter plaintext:
+a
+Ciphertext is:  333b2ddd618ce8a23993af9e094d7769
+ECB or CBC?
+</code></pre><p>We got <code>333b2ddd618ce8a23993af9e094d7769</code> as the ciphertext. Since this is hexadecimal representation, every character is 4 bits, thus making our block size 128 bits (4 * 32).</p><p>So to differentiate ECB from CBC we only need to send enough characters in the plaintext and then split our ciphertext every 32 characters (128 bits) and compare the first block of the ciphertext with the second. If these are equal then it&rsquo;s ECB, otherwise it&rsquo;s CBC.</p><p>I coded this into python and this is the result:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e>#!/usr/bin/python3</span>
+
+<span style=color:#f92672>from</span> pwn <span style=color:#f92672>import</span> <span style=color:#f92672>*</span>
+
+p <span style=color:#f92672>=</span> remote(<span style=color:#e6db74>&#39;crypto.chal.csaw.io&#39;</span>, <span style=color:#ae81ff>5001</span>)
+
+modes_seq <span style=color:#f92672>=</span> []
+
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>solve</span>():
+    <span style=color:#66d9ef>global</span> p
+    <span style=color:#66d9ef>global</span> modes_seq
+
+    counter <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+    plaintext <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#34;a&#34;</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>32</span>)
+    
+    <span style=color:#75715e># receive initial message</span>
+    p<span style=color:#f92672>.</span>recvlineS(keepends<span style=color:#f92672>=</span>False)
+    <span style=color:#66d9ef>while</span> True:
+        <span style=color:#75715e># receive plaintext prompt</span>
+        p<span style=color:#f92672>.</span>recvlineS(keepends<span style=color:#f92672>=</span>False)
+        <span style=color:#75715e># send plaintext</span>
+        p<span style=color:#f92672>.</span>sendline(plaintext)
+        <span style=color:#75715e># receive header from line with ciphertext</span>
+        p<span style=color:#f92672>.</span>recvuntilS(<span style=color:#e6db74>&#34;Ciphertext is:&#34;</span>)
+        <span style=color:#75715e># receive ciphertext</span>
+        cipher <span style=color:#f92672>=</span> p<span style=color:#f92672>.</span>recvlineS()<span style=color:#f92672>.</span>strip()
+        <span style=color:#75715e># receive ECB or CBC prompt</span>
+        p<span style=color:#f92672>.</span>recvlineS(keepends<span style=color:#f92672>=</span>False)
+        <span style=color:#75715e># check if it is ECB</span>
+        is_ecb <span style=color:#f92672>=</span> check_equal_with_bs(cipher)
+        <span style=color:#75715e># send cipher mode</span>
+        <span style=color:#66d9ef>if</span> is_ecb:
+            p<span style=color:#f92672>.</span>sendline(<span style=color:#e6db74>&#39;ECB&#39;</span>)
+        <span style=color:#66d9ef>else</span>:
+            p<span style=color:#f92672>.</span>sendline(<span style=color:#e6db74>&#39;CBC&#39;</span>)
+        <span style=color:#66d9ef>print</span>(f<span style=color:#e6db74>&#34;cipher {counter}&#34;</span>)
+        counter <span style=color:#f92672>*+=</span> <span style=color:#ae81ff>1</span>
+
+
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>check_equal_with_bs</span>(cipher):
+    bs <span style=color:#f92672>=</span> <span style=color:#ae81ff>32</span>
+    b0 <span style=color:#f92672>=</span> cipher[:bs]
+    b1 <span style=color:#f92672>=</span> cipher[bs:bs<span style=color:#f92672>*</span><span style=color:#ae81ff>2</span>]
+
+    <span style=color:#66d9ef>if</span> b0 <span style=color:#f92672>==</span> b1:
+        <span style=color:#66d9ef>return</span> True
+
+
+solve()
+</code></pre></div><p>We will send 32 characters since these make up 32 bytes (256 bits), to make our 2 blocks. When we run it we get:</p><pre><code>python3 solve.py
+[+] Opening connection to crypto.chal.csaw.io on port 5001: Done
+cipher 1
+cipher 2
+cipher 3
+cipher 4
+(...)
+cipher 174
+cipher 175
+cipher 176
+Traceback (most recent call last):
+  ( EXCEPTION INFO )
+EOFError
+</code></pre><p>It gave us an EOF after a while. After trying a couple of times we would understand this behaviour is recurrent.</p><p>After fiddling a bit (a lot actually) we can get to the result by checking out the cipher modes sequence.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># got this from tweaking the previous script</span>
+mode_seqs <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>,
+<span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>,
+<span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>,
+<span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>,
+<span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>,
+<span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>,
+<span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>,
+<span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>,
+<span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>,
+<span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>,
+<span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>,
+<span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>,
+<span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>,
+<span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>,
+<span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>,
+<span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>,
+<span style=color:#e6db74>&#39;ECB&#39;</span>, <span style=color:#e6db74>&#39;CBC&#39;</span>]
+binary <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
+
+<span style=color:#66d9ef>for</span> mode <span style=color:#f92672>in</span> mode_seqs:
+    <span style=color:#66d9ef>if</span> mode <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;ECB&#34;</span>:
+        binary <span style=color:#f92672>+=</span> <span style=color:#e6db74>&#34;0&#34;</span>
+    <span style=color:#66d9ef>else</span>:
+        binary <span style=color:#f92672>+=</span> <span style=color:#e6db74>&#34;1&#34;</span>
+
+<span style=color:#66d9ef>print</span>(binary)
+</code></pre></div><p>Our resulting binary is:</p><pre><code>0110011001101100011000010110011101111011010001010100001101000010010111110111001
+0011001010100000001101100011011000111100101011111011100110101010101100011011010
+110010010001111101
+</code></pre><p>If we translate this to characters we get <code>flag{ECB_re@lly_sUck$}</code>. That&rsquo;s it.</p></div></article><hr><div class=post-info><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>647 Words</p><p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>2020-09-17 00:00 +0000</p></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/csaw2020writeup-flask_caching/><span class=button__icon>←</span>
+<span class=button__text>CSAW 2020 - flask_caching</span></a></span>
+<span class="button next"><a href=/posts/csaw2020writeup-slithery/><span class=button__text>CSAW 2020 - slithery</span>
+<span class=button__icon>→</span></a></span></div></div></main></div><footer class=footer><div class=footer__inner><div class=footer__content><span>&copy; 2020</span>
+<span></span><span><a href=/posts/index.xml target=_blank title=rss><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></span></div></div><div class=footer__inner><div class=footer__content><span>Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>Made with &#10084; by <a href=https://github.com/rhazdon>Djordje Atlialp</a></span></div></div></footer></div><script type=text/javascript src=/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script></body></html>
