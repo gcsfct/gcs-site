@@ -2,7 +2,7 @@ baseurl = "/"
 languageCode = "en-us"
 theme = "hello-friend-ng"
 
-title ="NOVA Cyber Security Group"
+title ="NOVA CTF"
 
 [params]
   dateform        = "Jan 2, 2006"
@@ -10,10 +10,10 @@ title ="NOVA Cyber Security Group"
   dateformNum     = "2006-01-02"
   dateformNumTime = "2006-01-02 15:04 -0700"
 
-  homeSubtitle = "FCT @ UNL"
+  homeSubtitle = "FCT @ NOVA"
 
   # Metadata mostly used in document's head
-  description = "Homepage and blog by GCS"
+  description = "Homepage and blog by NOVA CTF"
   keywords = "homepage, blog, science, informatics, development, programming, security"
   images = [""]
 
@@ -37,35 +37,32 @@ title ="NOVA Cyber Security Group"
     readOtherPosts = "Read other posts"
 
     [languages.en.params.logo]
-      logoText = "cd /home/novacsg/"
+      logoText = "cd /novactf"
       logoHomeLink = "/"
 
+# Social icons
+[[params.social]]
+  name = "email"
+  url  = "mailto:cibersegurancafct@gmail.com"
 
-
- # Social icons
-  [[params.social]]
-    name = "email"
-    url  = "mailto:cibersegurancafct@gmail.com"
-
-  [[params.social]]
-    name = "github"
-    url  = "https://github.com/novacsg"
-
+[[params.social]]
+  name = "github"
+  url  = "https://github.com/novactf"
 
 # Menu
 [menu]
-  [[menu.main]]
+[[menu.main]]
     identifier = "about"
     name       = "About"
     url        = "/about"
-  [[menu.main]]
-    identifier = "blog"
-    name       = "Blog"
-    url        = "/posts"
-  [[menu.main]]
-    identifier = "challenges"
-    name       = "Challenges"
-    url        = "/challenges"
+  # [[menu.main]]
+  #   identifier = "blog"
+  #   name       = "Blog"
+  #   url        = "/posts"
+  # [[menu.main]]
+  #   identifier = "challenges"
+  #   name       = "Challenges"
+  #   url        = "/challenges"
   [[menu.main]]
     identifier = "discord"
     name       = "Sign Up"
