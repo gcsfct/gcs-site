@@ -27,6 +27,16 @@ title ="NOVA CTF"
     mask = "#252627"
     msapplication = "#252627"
     theme = "#252627"
+  [params.logo]
+    logoText     = "$ cd /home/"
+    logoHomeLink = "/"
+    # Set true to remove the logo cursor entirely.
+    # logoCursorDisabled = false
+    # Set to a valid CSS color to change the cursor in the logo.
+    logoCursorColor    = "#04d334"
+    # Set to a valid CSS time value to change the animation duration, "0s" to disable.
+    # logoCursorAnimate  = "2s"
+
 
 
 [languages]
@@ -35,10 +45,6 @@ title ="NOVA CTF"
     keywords = ""
     copyright = ""
     readOtherPosts = "Read other posts"
-
-  [languages.en.params.logo]
-    logoText = "cd /novactf"
-    logoHomeLink = "/"
 
 # Social icons
 [[params.social]]
